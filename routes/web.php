@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\oauth\GoogleAuthController;
 use App\Livewire\Welcome;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Verify;
 use App\Livewire\Auth\Register;
+use Laravel\Socialite\Socialite;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\ForgotPassword;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +26,9 @@ Route::post('/email/verification-notification', [Verify::class, 'sendVerifyMail'
 
 Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
 Route::get('/reset-password/{token}', ResetPassword::class)->middleware('guest')->name('password.reset');
+
+
+Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
+Route::get('/auth/google/callback', [App\Http\Controllers\oauth\GoogleController::class, 'callback'])->name('auth.google.callback');
+Route::get('login/facebook', [App\Http\Controllers\oauth\FacebookController::class, 'redirect'])->name('auth.facebook.redirect');
+Route::get('login/facebook/callback', [App\Http\Controllers\oauth\FacebookController::class, 'callback']);
