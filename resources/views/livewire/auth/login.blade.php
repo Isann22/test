@@ -51,7 +51,7 @@
                 <span class="font-semibold text-lg">Google</span>
             </a>
 
-            <a href="{{ route('auth.google.redirect') }}"
+            <a href="{{ route('auth.facebook.redirect') }}"
                 class="flex flex-1 items-center justify-center gap-3 py-3 px-4 bg-[#1877F2] text-white rounded hover:bg-[#166fe5] transition shadow-sm no-underline">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 fill-current" viewBox="0 0 24 24">
                     <path
