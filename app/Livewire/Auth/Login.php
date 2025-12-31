@@ -5,7 +5,6 @@ namespace App\Livewire\Auth;
 use Livewire\Component;
 use Masmerise\Toaster\Toaster;
 use Livewire\Attributes\Layout;
-use Laravel\Socialite\Socialite;
 use Illuminate\Support\Facades\Auth;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
@@ -47,7 +46,7 @@ class Login extends Component
         if (Auth::attempt($credentials, $this->remember)) {
             session()->regenerate();
 
-            return redirect(route('home'))->success('Logged in as ' . Auth::user()->name . ' ' . Auth::user()->surname . '.');
+            return redirect(route('home'))->success('Logged in as ' . Auth::user()->name);
         }
 
         Toaster::error('Invalid credentials');

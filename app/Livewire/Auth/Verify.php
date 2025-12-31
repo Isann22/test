@@ -76,10 +76,13 @@ class Verify extends Component
 
     protected function returnHomeIfVerified()
     {
+        if (!Auth::user()) {
+            return redirect(route('home', absolute: false));
+        }
         $this->user = Auth::user();
         // If user is verified, redirect to home page
         if ($this->user->hasVerifiedEmail()) {
-            return redirect(route('home'))->warning('This email address is already verified');
+            return redirect(route('home', absolute: false))->warning('This email address is already verified');
         }
     }
 

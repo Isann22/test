@@ -4,10 +4,11 @@ namespace App\Livewire\Auth;
 
 use App\Models\User;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Masmerise\Toaster\Toaster;
-use Illuminate\Auth\Events\Registered;
+use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\ValidationException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
@@ -17,13 +18,12 @@ class Register extends Component
 {
     use WithRateLimiting;
 
-    public string $name;
+    public string $full_name;
     public string $email;
     public string $password;
     public string $password_confirmation;
     public string $phone;
 
-    public bool $terms;
 
     public function validateEmail()
     {
@@ -48,31 +48,34 @@ class Register extends Component
             Toaster::error("You have made too many requests. Please try again in {$exception->minutesUntilAvailable} minutes.");
             return;
         }
-        try {
-            $this->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
-                'phone' => [
-                    'required',
-                    'string',
-                    'regex:/^\+[1-9]\d{1,14}$/'
-                ],
-                'terms' => ['required', 'accepted'],
-            ]);
-        } catch (ValidationException $exception) {
-            Toaster::error($exception->getMessage());
-            return;
-        }
+
+        $this->validate([
+            'full_name' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^\+[1-9]\d{1,14}$/'
+            ],
+
+        ]);
 
         $attributes = [
-            'name' => $this->name,
+            'name' => $this->full_name,
             'email' => $this->email,
             'password' => $this->password,
+            'phone_number' => $this->phone,
         ];
 
 
-        $user = User::create($attributes);
+        DB::beginTransaction();
+        try {
+            $user = User::create($attributes);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Toaster::error('An error occurred,');
+        }
 
         Auth::login($user);
 
