@@ -8,6 +8,6 @@ class Welcome extends Component
 {
     public function render()
     {
-        return view('livewire.welcome')->title('Your Laravel Livewire Starter Kit - ' . config('app.name'));
+        return view('livewire.welcome')->title(config('app.name'));
     }
 }

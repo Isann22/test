@@ -1,36 +1,39 @@
-<div class="p-6 xl:p-10 rounded-lg flex-1">
-    <div class="flex items-center justify-between gap-5">
-        <div class="size-9 rounded-full bg-blue-700 shadow-blue-500/10">
-        </div>
-        <div class="flex items-center justify-end gap-1">
-            <form method="POST" action="{{ route('logout') }}" class="flex items-center justify-center">
-                @csrf
-                @method('DELETE')
-                <button type="submit" href="{{ route('logout') }}"
-                    class="inline-flex items-center gap-1 text-blue-500 hover:text-blue-400 font-semibold text-xs cursor-pointer">
-                    Log out <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="lucide lucide-door-open-icon lucide-door-open size-4">
-                        <path d="M11 20H2" />
-                        <path
-                            d="M11 4.562v16.157a1 1 0 0 0 1.242.97L19 20V5.562a2 2 0 0 0-1.515-1.94l-4-1A2 2 0 0 0 11 4.561z" />
-                        <path d="M11 4H8a2 2 0 0 0-2 2v14" />
-                        <path d="M14 12h.01" />
-                        <path d="M22 20h-3" />
-                    </svg>
-                </button>
-            </form>
-        </div>
+<div class="mx-auto w-full max-w-xl py-3 rounded-xl border border-zinc-200 text-center ">
+
+    <div class="flex items-end justify-end pe-3">
+        <form method="POST" action="{{ route('logout') }}" class="">
+            @csrf
+            @method('DELETE')
+            <button type="submit" href="{{ route('logout') }}"
+                class="inline-flex items-center gap-1 text-neutral-500 hover:text-neutral-800 font-semibold text-xs cursor-pointer">
+                Log out <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-door-open-icon lucide-door-open size-4">
+                    <path d="M11 20H2" />
+                    <path
+                        d="M11 4.562v16.157a1 1 0 0 0 1.242.97L19 20V5.562a2 2 0 0 0-1.515-1.94l-4-1A2 2 0 0 0 11 4.561z" />
+                    <path d="M11 4H8a2 2 0 0 0-2 2v14" />
+                    <path d="M14 12h.01" />
+                    <path d="M22 20h-3" />
+                </svg>
+            </button>
+        </form>
     </div>
+
     <div class="flex flex-col gap-2 items-center justify-center mt-10 text-center">
-        <h1 class="text-xl font-bold">Verify Your Email Address</h1>
-        <p class="text-sm text-gray-400 mt-1">
-            We have sent a verification code to <span
-                class="font-medium text-blue-400">{{ Auth::user()->email }}</span>.
-        </p>
-        <p class="text-sm text-gray-400 mt-1">
-            If you didn't receive the email, we will gladly send you another. <br> Remember to check your spam folder.
-        </p>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="hi-outline hi-lock-closed mb-5 inline-block size-6 opacity-75">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+        </svg>
+        <h1 class="text-neutral text-xl font-bold">Verify Your Email Address</h1>
+
+        <p class="text-sm text-gray-400  mt-1">
+            We have sent a verification code to <span {{-- class="font-medium text-neutral-600">{{ Auth::user()->email }}</span>. --}} </p>
+                <p class="text-sm text-gray-400 mt-1">
+                    If you didn't receive the email, we will gladly send you another. <br> Remember to check your spam
+                    folder.
+                </p>
     </div>
     <form wire:submit="verifyEmail">
         <div class="flex items-center justify-center gap-2 mt-6 mb-7" x-data="{
@@ -129,29 +132,31 @@
                     x-ref="codeInput{{ $i }}" x-on:input="handleInput({{ $i }}, $event)"
                     x-on:keydown="handleKeyDown({{ $i }}, $event)"
                     x-on:paste="handlePaste({{ $i }}, $event)" required
-                    class="size-12 rounded-md bg-gray-900 text-gray-400 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="block w-9 rounded-lg border border-zinc-200 px-2 py-1.5 text-center text-sm/6 placeholder-zinc-500 focus:border-zinc-500 focus:ring-3 focus:ring-zinc-500/50 dark:border-zinc-600 dark:bg-transparent dark:placeholder-zinc-400 dark:focus:border-zinc-500"
                     aria-label="Verification code digit {{ $i + 1 }}" />
             @endfor
         </div>
 
-        <button type="submit" class="btn-primary px-4 py-2 flex justify-center w-11/12 sm:w-2/3 mx-auto">
+        <button type="submit" class="btn btn-primary px-4 py-2 flex justify-center w-11/12 sm:w-2/3 mx-auto">
             <span wire:loading.remove wire:target="verifyEmail">Verify Email</span>
             <x-spinner class="size-6" wire:loading wire:target="verifyEmail" />
         </button>
     </form>
     <form wire:submit="sendVerifyMail" class="w-11/12 sm:w-2/3 mx-auto mt-4">
-        <button type="submit" class="btn-secondary px-4 py-2 w-full flex justify-center">
-            <span wire:loading.remove wire:target="sendVerifyMail">Resend Code</span>
+        <button type="submit" class="btn bg-base-300 px-4 py-2 w-full flex justify-center">
+            <span class="text-neutral" wire:loading.remove wire:target="sendVerifyMail">Resend
+                Code</span>
             <x-spinner class="size-6" wire:loading wire:target="sendVerifyMail" />
         </button>
+
     </form>
 
-    <div class="flex items-center justify-between mt-10">
-        <span class="text-xs text-gray-500">
+    <div class="flex items-center justify-between mt-10 pe-3 ps-3">
+        <span class="text-xs text-neutral-500">
             @ {{ date('Y') }} {{ config('app.name') }}
         </span>
         <a href="{{ route('home') }}" wire:navigate.hover
-            class="inline-flex items-center text-xs text-gray-500 hover:text-blue-400 transition duration-300">
+            class="inline-flex items-center text-xs text-neutral-500 hover:text-neutral-800 transition duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-arrow-left-icon lucide-arrow-left size-5 mr-0.5">
