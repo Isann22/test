@@ -13,9 +13,23 @@
 </head>
 
 <body class="min-h-svh antialiased font-inter  flex flex-col">
-    <main class="flex-1 relative z-10">
-        {{ $slot }}
+    <main>
+        <div class="drawer">
+            <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+
+            <div class="drawer-content flex flex-col min-h-screen">
+                <x-navbar />
+
+                <div class="flex-1 p-6 bg-base-100">
+                    {{ $slot }}
+                </div>
+            </div>
+
+            <x-drawer />
+        </div>
     </main>
+    <x-footer />
+
     <x-toaster-hub />
     @livewireScriptConfig
 </body>

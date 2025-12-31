@@ -10,7 +10,7 @@
                 'name' => $name,
                 'placeholder' => $placeholder,
                 'required' => $required,
-                'class' => 'input input-primary w-full rounded-lg',
+                'class' => 'input  w-full rounded-lg',
             ]) }}
             wire:model.blur="{{ $name }}" />
     </label>

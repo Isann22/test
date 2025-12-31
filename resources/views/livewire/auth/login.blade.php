@@ -13,7 +13,7 @@
             <a href="{{ route('forgot-password') }}" wire:navigate.hover
                 class="text-sm text-blue-400 hover:underline">Forgot password?</a>
         </div>
-        <button type="submit" class="btn-primary px-4 py-2 w-full">
+        <button type="submit" class="btn btn-neutral text-base-100 px-4 py-2 w-full">
             <span wire:loading.remove wire:target="authenticate">Sign In</span>
             <x-spinner class="size-6" wire:loading wire:target="authenticate" />
         </button>

@@ -45,7 +45,8 @@
             <x-form.input-text label="Email Address" name="email" wire:model="email" placeholder="Email" required />
 
             <button type="button" @click="nextStep()"
-                class="btn-primary px-4 py-2 w-full mt-4 flex items-center justify-center">
+                class="btn btn-neutral text-base-100 px-4 py-2 w-full mt-4
+                flex items-center justify-center">
                 <span x-show="!loading">Next</span>
                 <span x-show="loading" class="flex items-center">
                     <x-spinner class="size-6" />
@@ -76,11 +77,11 @@
             @enderror
 
             <div class="flex gap-2 mt-4">
-                <button type="button" @click="step = 1" class="btn btn-secondary  px-4 py-2 rounded">
+                <button type="button" @click="step = 1" class="btn px-4 py-2 rounded">
                     Back
                 </button>
 
-                <button @click.prevent="submitRegistration()" class="btn-primary px-4 py-2 flex-1">
+                <button @click.prevent="submitRegistration()" class="btn-neutral text-base-100 px-4 py-2 flex-1">
                     <span wire:loading.remove wire:target="register">Sign Up</span>
                     <x-spinner class="size-6" wire:loading wire:target="register" />
                 </button>

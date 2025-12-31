@@ -15,13 +15,16 @@
 </head>
 
 <body class="min-h-svh antialiased font-inter bg-white text-black flex flex-col">
-    <main class="flex-1 relative   text-black flex flex-col justify-center items-center">
+    <x-navbar />
+    <main class="flex-1 relative   text-black flex flex-col justify-center items-center my-14">
 
 
         <div class="flex relative z-10 p-0 xl:p-2 rounded-2xl shadow-md bg-white w-96 my-4 lg:my-0 2xl:w-8/12">
             {{ $slot }}
         </div>
     </main>
+
+    <x-footer />
     <x-toaster-hub />
     @livewireScriptConfig
 
