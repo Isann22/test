@@ -20,8 +20,10 @@
             <div class="drawer-content flex flex-col min-h-screen">
                 <x-navbar />
 
-                <div class="flex-1 p-6 bg-base-100">
-                    {{ $slot }}
+                <div class="flex-1 bg-base-100">
+                    <main>
+                        {{ $slot }}
+                    </main>
                 </div>
             </div>
 
