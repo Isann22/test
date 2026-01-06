@@ -1,7 +1,6 @@
 <div class="w-full flex flex-col gap-16 ">
     <section id="hero" class="container mx-auto px-6 py-12 ">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-
             <div class="text-left space-y-6">
                 <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-base-content">
                     Capture your moments <br>
@@ -26,7 +25,7 @@
 
         <div class="mb-10 text-left">
             <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-2">Photography for Every Milestone</h2>
-            <p class="text-gray-500 text-lg">Get inspired to create your own beautiful moments!</p>
+            <p class="text-base-content/70 text-lg">Get inspired to create your own beautiful moments!</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -85,7 +84,7 @@
             <div class="flex justify-between items-end mb-8">
                 <div>
                     <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-2">Featured Destinations</h2>
-                    <p class="text-gray-500 text-lg">Favourite places to capture your memories in Indonesia</p>
+                    <p class="text-base-content/70 text-lg">Favourite places to capture your memories in Indonesia</p>
                 </div>
                 <div class="hidden md:flex gap-2">
                     <button class="btn btn-circle btn-sm btn-ghost"

@@ -8,6 +8,7 @@ class Welcome extends Component
 {
     public array $categories = [];
     public array $destinations = [];
+    public bool $showDrawer1 = false;
 
     public function mount()
     {

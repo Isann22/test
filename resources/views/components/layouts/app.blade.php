@@ -16,8 +16,8 @@
     <main>
         <div class="drawer">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-
             <div class="drawer-content flex flex-col min-h-screen">
+
                 <x-navbar />
 
                 <div class="flex-1 bg-base-100">

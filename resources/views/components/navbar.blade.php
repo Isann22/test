@@ -14,7 +14,16 @@
             <div class="hidden lg:flex items-center gap-1 ml-4">
                 <ul class="menu menu-horizontal px-1">
                     <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')" wire:navigate>
-                        home
+                        Home
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('')" wire:navigate>
+                        Cities
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('')" wire:navigate>
+                        Moments
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('photographer') }}" :active="request()->routeIs('photographer')" wire:navigate>
+                        Photographer
                     </x-nav-link>
                 </ul>
             </div>
