@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Models\City;
 use Livewire\Component;
 
 class Welcome extends Component
 {
     public array $categories = [];
-    public array $destinations = [];
+    public $cities;
     public bool $showDrawer1 = false;
 
     public function mount()
@@ -57,37 +58,12 @@ class Welcome extends Component
             ],
         ];
 
-        $this->destinations = [
-            [
-                'city' => 'Ubud, Bali',
-                'province' => 'Bali',
-                'season' => 'Visit on Apr - Oct',
-                'price' => 'IDR 2.500.000',
-                'image' => 'https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp',
-            ],
-            [
-                'city' => 'Labuan Bajo',
-                'province' => 'Nusa Tenggara Timur',
-                'season' => 'Visit on May - Sep',
-                'price' => 'IDR 4.500.000',
-                'image' => 'https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp',
-            ],
-            [
-                'city' => 'Bromo',
-                'province' => 'Jawa Timur',
-                'season' => 'Visit on Jun - Aug',
-                'price' => 'IDR 1.850.000',
-                'image' => 'https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp',
-            ],
-            [
-                'city' => 'Borobudur',
-                'province' => 'Yogyakarta',
-                'season' => 'Visit on Jul - Sep',
-                'price' => 'IDR 1.200.000',
-                'image' => 'https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp"',
-            ],
 
-        ];
+        $this->cities = City::select('id', 'name', 'slug', 'price')
+            ->with('media')
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
     }
 
 
