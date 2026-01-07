@@ -9,6 +9,10 @@
         step: 1,
         loading: false,
         init() {
+            if (typeof window.intlTelInput !== 'function') {
+                console.error('intlTelInput library not loaded yet');
+                return;
+            }
             const input = this.$refs.phoneInput;
             if (input) {
                 this.iti = window.intlTelInput(input, {
@@ -98,9 +102,9 @@
     </div>
 
     <div class="relative flex items-center mb-8">
-        <div class="flex-grow border-t border-gray-200"></div>
-        <span class="flex-shrink mx-4 text-gray-400 text-sm font-light">Or register with</span>
-        <div class="flex-grow border-t border-gray-200"></div>
+        <div class="grow border-t border-gray-200"></div>
+        <span class="shrink mx-4 text-gray-400 text-sm font-light">Or register with</span>
+        <div class="grow border-t border-gray-200"></div>
     </div>
 
     <x-social-login />
