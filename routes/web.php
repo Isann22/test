@@ -1,20 +1,22 @@
 <?php
 
-use App\Http\Controllers\oauth\GoogleAuthController;
 use App\Livewire\Welcome;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Verify;
 use App\Livewire\Auth\Register;
 use Laravel\Socialite\Socialite;
+use App\Livewire\Public\City\Show;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\ForgotPassword;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\oauth\GoogleAuthController;
 
 Route::get('/', Welcome::class)->name('home');
 
 
 Route::view('/photographer', 'components.pages.photographer')->name('photographer');
-
+Route::get('/destinations', App\Livewire\Front\City\Index::class)->name('destinations.index');
+Route::get('/destination/{city:slug}', App\Livewire\Front\City\Show::class)->name('cities.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');

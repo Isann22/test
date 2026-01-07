@@ -80,65 +80,60 @@
 
     <section id="destinations" class="w-full py-12 bg-base-100">
         <div class="container mx-auto px-6">
+            <div class="w-full space-y-4">
+                <div class="flex justify-between items-end px-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-base-content">Popular Destinations</h2>
+                        <p class="text-base-content/60 text-sm mt-1">Discover the beauty of Indonesia</p>
+                    </div>
+                    <div class="hidden md:flex gap-2">
+                        <button class="btn btn-circle btn-sm btn-ghost"
+                            onclick="document.getElementById('dest-carousel').scrollBy({left: -300, behavior: 'smooth'})">
+                            <x-mary-icon name="o-chevron-left" class="w-5 h-5" />
+                        </button>
+                        <button class="btn btn-circle btn-sm btn-ghost"
+                            onclick="document.getElementById('dest-carousel').scrollBy({left: 300, behavior: 'smooth'})">
+                            <x-mary-icon name="o-chevron-right" class="w-5 h-5" />
+                        </button>
+                    </div>
 
-            <div class="flex justify-between items-end mb-8">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-2">Featured Destinations</h2>
-                    <p class="text-base-content/70 text-lg">Favourite places to capture your memories in Indonesia</p>
                 </div>
-                <div class="hidden md:flex gap-2">
-                    <button class="btn btn-circle btn-sm btn-ghost"
-                        onclick="document.getElementById('dest-carousel').scrollBy({left: -300, behavior: 'smooth'})">
-                        <x-mary-icon name="o-chevron-left" class="w-5 h-5" />
-                    </button>
-                    <button class="btn btn-circle btn-sm btn-ghost"
-                        onclick="document.getElementById('dest-carousel').scrollBy({left: 300, behavior: 'smooth'})">
-                        <x-mary-icon name="o-chevron-right" class="w-5 h-5" />
-                    </button>
-                </div>
-            </div>
+                <a href="{{ route('destinations.index') }}"
+                    class="btn btn-ghost btn-sm text-primary font-bold hover:bg-transparent hover:underline">
+                    See All Cities <x-mary-icon name="o-arrow-right" class="w-4 h-4 ml-1" />
+                </a>
 
-            <div id="dest-carousel"
-                class="carousel carousel-center w-full p-4 space-x-6 bg-transparent rounded-box overflow-x-auto scroll-smooth">
+                <div id="dest-carousel"
+                    class="carousel carousel-center w-full p-4 space-x-6 bg-transparent rounded-box overflow-x-auto scroll-smooth snap-x">
+                    @foreach ($cities as $city)
+                        <div class="carousel-item snap-center">
+                            <div
+                                class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 w-80 group relative transition-all duration-300 hover:shadow-xl">
+                                <a href="{{ route('cities.show', $city->slug) }}" class="absolute inset-0 z-20"></a>
 
-                @foreach ($destinations as $destination)
-                    <div class="carousel-item">
-                        <div
-                            class="card bg-base-100 image-full w-72 md:w-80 h-96 shadow-xl before:opacity-10 hover:before:opacity-20 transition-all duration-300 group cursor-pointer">
-                            <figure>
-                                <img src="{{ $destination['image'] }}" alt="{{ $destination['city'] }}"
-                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                            </figure>
+                                <figure class="relative h-full">
+                                    <img src="{{ $city->getFirstMediaUrl('albums') }}" alt="{{ $city->name }}"
+                                        class="aspect-4/3 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
 
-                            <div class="card-body p-6 flex flex-col justify-between">
-
-                                <div class="flex items-start gap-1 text-white/90">
-                                    <x-mary-icon name="o-map-pin" class="w-5 h-5 mt-1 text-warning" />
-                                    <div>
-                                        <h3 class="font-bold text-2xl leading-tight">{{ $destination['city'] }}</h3>
-                                        <span class="text-sm opacity-80">{{ $destination['province'] }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="mt-auto space-y-2">
-                                    <div
-                                        class="flex items-center gap-2 text-white/80 text-sm bg-black/20 backdrop-blur-sm p-2 rounded-lg w-fit">
-                                        <x-mary-icon name="o-calendar" class="w-4 h-4" />
-                                        <span>{{ $destination['season'] }}</span>
-                                    </div>
-
-                                    <div>
-                                        <p class="text-xs text-white/70">Start from</p>
-                                        <p class="text-xl font-bold text-white">{{ $destination['price'] }}</p>
-                                    </div>
-                                </div>
+                                    <figcaption
+                                        class="absolute bottom-0 left-0 w-full p-6 text-white bg-linear-to-t from-slate-900/90 to-transparent">
+                                        <div class="flex items-center gap-1 mb-1">
+                                            <x-mary-icon name="o-map-pin" class="w-4 h-4 text-warning" />
+                                            <h3 class="text-lg font-medium leading-tight">{{ $city->name }}</h3>
+                                        </div>
+                                        <p class="text-sm opacity-90 text-slate-300">
+                                            Start from <span class="font-bold text-warning">IDR
+                                                {{ number_format($city->price, 0, ',', '.') }}</span>
+                                        </p>
+                                    </figcaption>
+                                </figure>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-
+                    @endforeach
+                </div>
             </div>
         </div>
-    </section>
+</div>
+</section>
 
 </div>
