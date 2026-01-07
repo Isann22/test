@@ -80,7 +80,6 @@
 
     <section id="destinations" class="w-full py-12 bg-base-100">
         <div class="container mx-auto px-6">
-
             <div class="w-full space-y-4">
                 <div class="flex justify-between items-end px-4">
                     <div>
@@ -99,7 +98,7 @@
                     </div>
 
                 </div>
-                <a href="#"
+                <a href="{{ route('destinations.index') }}"
                     class="btn btn-ghost btn-sm text-primary font-bold hover:bg-transparent hover:underline">
                     See All Cities <x-mary-icon name="o-arrow-right" class="w-4 h-4 ml-1" />
                 </a>
@@ -110,14 +109,14 @@
                         <div class="carousel-item snap-center">
                             <div
                                 class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 w-80 group relative transition-all duration-300 hover:shadow-xl">
-                                <a href="" class="absolute inset-0 z-20"></a>
+                                <a href="{{ route('cities.show', $city->slug) }}" class="absolute inset-0 z-20"></a>
 
                                 <figure class="relative h-full">
                                     <img src="{{ $city->getFirstMediaUrl('albums') }}" alt="{{ $city->name }}"
                                         class="aspect-4/3 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
 
                                     <figcaption
-                                        class="absolute bottom-0 left-0 w-full p-6 text-white bg-gradient-to-t from-slate-900/90 to-transparent">
+                                        class="absolute bottom-0 left-0 w-full p-6 text-white bg-linear-to-t from-slate-900/90 to-transparent">
                                         <div class="flex items-center gap-1 mb-1">
                                             <x-mary-icon name="o-map-pin" class="w-4 h-4 text-warning" />
                                             <h3 class="text-lg font-medium leading-tight">{{ $city->name }}</h3>
@@ -133,7 +132,6 @@
                     @endforeach
                 </div>
             </div>
-
         </div>
 </div>
 </section>
