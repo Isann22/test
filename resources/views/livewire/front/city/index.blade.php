@@ -1,6 +1,5 @@
 <div class="container mx-auto px-4 py-12">
 
-    {{-- Header & Search --}}
     <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
         <div>
             <h1 class="text-4xl font-bold text-base-content">All Destinations</h1>
@@ -20,7 +19,7 @@
         </div>
     </div>
 
-    {{-- Grid Layout (Hanya Data Asli) --}}
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
         @forelse ($this->cities as $city)
             <div

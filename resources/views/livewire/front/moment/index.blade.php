@@ -35,7 +35,7 @@
                         <h3 class="text-xl font-bold text-white mb-1">{{ $moment->name }}</h3>
                         <p class="text-sm text-white/80 mb-3 line-clamp-2">{{ Str::limit($moment->details, 60) }}</p>
                         <x-mary-button label="Explore" icon="o-arrow-right" class="btn btn-neutral btn-sm w-fit"
-                            link="{{ route('moment.show', $moment->slug) }}" />
+                            link="{{ route('moments.show', $moment->slug) }}" />
                     </div>
                 </figure>
             </div>
