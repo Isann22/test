@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\City;
 use App\Models\Moment;
+use App\Models\PhotographerApplicant;
 use Livewire\Component;
 
 class Welcome extends Component
