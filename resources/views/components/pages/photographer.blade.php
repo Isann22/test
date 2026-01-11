@@ -8,7 +8,8 @@
                 <p class="py-6 text-base-content/70">
                     Join thousands of SweetEscape photographers and start getting clients, for any kind of photography.
                 </p>
-                <button class="btn btn-neutral">Join as a Photographer</button>
+                <button class="btn btn-neutral" wire:navigate href="{{ route('photographer.create') }}">Join as a
+                    Photographer</button>
             </div>
         </div>
     </div>

@@ -13,7 +13,11 @@ Route::get('/', Welcome::class)->name('home');
 
 
 // Photographer
-Route::view('/photographer', 'components.pages.photographer')->name('photographer');
+Route::prefix('photographer')->name('photographer.')->group(function () {
+    Route::view('/', 'components.pages.photographer')->name('index');
+    Route::get('/photographer-join', App\Livewire\Front\PhotographerApplicant\Create::class)->name('create');
+});
+
 
 // Destinations (Cities)
 Route::prefix('destinations')->name('destinations.')->group(function () {

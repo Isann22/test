@@ -75,6 +75,7 @@ class Register extends Component
         } catch (\Exception $e) {
             DB::rollBack();
             Toaster::error('An error occurred,');
+            return;
         }
 
         Auth::login($user);
