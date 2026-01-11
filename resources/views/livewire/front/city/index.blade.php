@@ -25,7 +25,7 @@
         @forelse ($this->cities as $city)
             <div
                 class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 w-full max-w-sm group relative transition-all duration-300 hover:shadow-2xl">
-                <a href="{{ route('destination.show', $city->slug) }}" class="absolute inset-0 z-20"></a>
+                <a href="{{ route('destinations.show', $city->slug) }}" class="absolute inset-0 z-20"></a>
 
                 <figure class="relative h-64">
                     <img src="{{ $city->getFirstMediaUrl('albums') }}" alt="{{ $city->name }}"
