@@ -85,7 +85,7 @@
                         <div class="carousel-item snap-center">
                             <div
                                 class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 w-80 group relative transition-all duration-300 hover:shadow-xl">
-                                <a href="{{ route('destination.show', $city->slug) }}"
+                                <a href="{{ route('destinations.show', $city->slug) }}"
                                     class="absolute inset-0 z-20"></a>
 
                                 <figure class="relative h-full">

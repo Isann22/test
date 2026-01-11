@@ -12,12 +12,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Welcome::class)->name('home');
 
 
+// Photographer
 Route::view('/photographer', 'components.pages.photographer')->name('photographer');
-Route::get('/destinations', App\Livewire\Front\City\Index::class)->name('destinations.index');
-Route::get('/destination/{city:slug}', App\Livewire\Front\City\Show::class)->name('destination.show');
 
-Route::get('/moments', App\Livewire\Front\Moment\Index::class)->name('moments.index');
-Route::get('/moment/{moment:slug}', App\Livewire\Front\Moment\Show::class)->name('moment.show');
+// Destinations (Cities)
+Route::prefix('destinations')->name('destinations.')->group(function () {
+    Route::get('/', App\Livewire\Front\City\Index::class)->name('index');
+    Route::get('/{city:slug}', App\Livewire\Front\City\Show::class)->name('show');
+});
+
+// Moments
+Route::prefix('moments')->name('moments.')->group(function () {
+    Route::get('/', App\Livewire\Front\Moment\Index::class)->name('index');
+    Route::get('/{moment:slug}', App\Livewire\Front\Moment\Show::class)->name('show');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');

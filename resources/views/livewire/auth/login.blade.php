@@ -30,9 +30,9 @@
 
     <div class="p-6 xl:p-10 rounded-lg flex-1">
         <div class="flex items-center gap-4 mb-8">
-            <div class="h-[1px] flex-1 bg-gray-200"></div>
+            <div class="h-px flex-1 bg-gray-200"></div>
             <span class="text-gray-400 text-sm font-light shrink-0">Or login with</span>
-            <div class="h-[1px] flex-1 bg-gray-200"></div>
+            <div class="h-px flex-1 bg-gray-200"></div>
         </div>
 
         <x-social-login />
