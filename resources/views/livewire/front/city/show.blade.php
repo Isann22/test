@@ -88,14 +88,31 @@
 
                     <div class="card bg-base-100 shadow-2xl border-t-4 border-primary">
                         <div class="card-body">
-                            <h3 class="text-lg font-medium text-gray-500">Starting Price</h3>
+                            <h3 class="text-lg font-medium text-gray-500">Book This City</h3>
 
-                            <div class="flex items-baseline gap-1 my-2">
-                                <span class="text-xs font-bold text-gray-500 relative -top-4">IDR</span>
-                                <span class="text-4xl font-extrabold text-primary">
-                                    {{ number_format($city->price, 0, ',', '.') }}
-                                </span>
+                            <div class="divider my-2"></div>
+
+                            <div class="form-control w-full mb-4">
+                                <label class="label">
+                                    <span class="label-text font-semibold">Select Moment</span>
+                                </label>
+                                <x-mary-select wire:model.live="selectedMoment" :options="$this->moments" option-value="id"
+                                    option-label="name" placeholder="Choose a moment..." class="select-bordered" />
                             </div>
+
+                            @if ($selectedMoment)
+                                <div class="flex items-baseline gap-1 my-2">
+                                    <span class="text-xs font-bold text-gray-500 relative -top-4">IDR</span>
+                                    <span class="text-4xl font-extrabold text-primary">
+                                        {{ number_format($city->price, 0, ',', '.') }}
+                                    </span>
+                                </div>
+                            @else
+                                <div class="text-center text-gray-400 py-4">
+                                    <x-mary-icon name="o-sparkles" class="w-8 h-8 mx-auto mb-2" />
+                                    <p class="text-sm">Select a moment to see the price</p>
+                                </div>
+                            @endif
 
                             <div class="divider my-2"></div>
 
@@ -114,7 +131,8 @@
                                 </li>
                             </ul>
 
-                            <button class="btn btn-primary btn-block text-white shadow-lg group">
+                            <button class="btn btn-primary btn-block text-white shadow-lg group"
+                                @disabled(!$selectedMoment)>
                                 Book Now
                                 <x-mary-icon name="o-arrow-right"
                                     class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
