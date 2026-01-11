@@ -26,7 +26,7 @@
         <div class="mb-10 text-left">
             <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-2">Photography for Every Milestone</h2>
             <p class="text-base-content/70 text-lg">Get inspired to create your own beautiful moments!</p>
-            <a href="{{ route('destinations.index') }}"
+            <a href="{{ route('moments.index') }}"
                 class="text-primary text-sm font-bold hover:bg-transparent hover:underline">
                 See All Moments <x-mary-icon name="o-arrow-right" class="w-4 h-4 " />
             </a>
@@ -85,7 +85,8 @@
                         <div class="carousel-item snap-center">
                             <div
                                 class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 w-80 group relative transition-all duration-300 hover:shadow-xl">
-                                <a href="{{ route('cities.show', $city->slug) }}" class="absolute inset-0 z-20"></a>
+                                <a href="{{ route('destination.show', $city->slug) }}"
+                                    class="absolute inset-0 z-20"></a>
 
                                 <figure class="relative h-full">
                                     <img src="{{ $city->getFirstMediaUrl('albums') }}" alt="{{ $city->name }}"

@@ -19,7 +19,7 @@
                     <x-nav-link href="{{ route('destinations.index') }}" :active="request()->routeIs('destinations.index')" wire:navigate>
                         Cities
                     </x-nav-link>
-                    <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('')" wire:navigate>
+                    <x-nav-link href="{{ route('moments.index') }}" :active="request()->routeIs('moments.index')" wire:navigate>
                         Moments
                     </x-nav-link>
                     <x-nav-link href="{{ route('photographer') }}" :active="request()->routeIs('photographer')" wire:navigate>
