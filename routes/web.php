@@ -17,6 +17,7 @@ Route::get('/destinations', App\Livewire\Front\City\Index::class)->name('destina
 Route::get('/destination/{city:slug}', App\Livewire\Front\City\Show::class)->name('destination.show');
 
 Route::get('/moments', App\Livewire\Front\Moment\Index::class)->name('moments.index');
+Route::get('/moment/{moment:slug}', App\Livewire\Front\Moment\Show::class)->name('moment.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');

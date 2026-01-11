@@ -1,13 +1,13 @@
 <div class="container mx-auto px-4 py-12">
 
-    {{-- Header & Search --}}
-    <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-        <div>
+    <div class="flex flex-col md:flex-row justify-center lg:justify-between items-center mb-10 gap-4">
+
+        <div class="text-center md:text-left">
             <h1 class="text-4xl font-bold text-base-content">All Moments</h1>
             <p class="text-base-content/60 mt-2">Capture your special moments with us</p>
         </div>
 
-        <div class="w-full md:w-1/3">
+        <div class="max-w-md mx-auto md:max-w-none md:mx-0 md:w-1/3 lg:w-1/4">
             <label class="input input-bordered flex items-center gap-2 rounded-full shadow-sm">
                 <input type="text" wire:model.live.debounce.300ms="search" class="grow"
                     placeholder="Search moment..." />
@@ -21,7 +21,6 @@
         </div>
     </div>
 
-    {{-- Grid Layout --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
         @forelse ($this->moments as $moment)
             <div
@@ -31,13 +30,12 @@
                         alt="{{ $moment->name }}"
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
 
-                    {{-- Overlay dengan gradient --}}
                     <div
                         class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-5">
                         <h3 class="text-xl font-bold text-white mb-1">{{ $moment->name }}</h3>
                         <p class="text-sm text-white/80 mb-3 line-clamp-2">{{ Str::limit($moment->details, 60) }}</p>
                         <x-mary-button label="Explore" icon="o-arrow-right" class="btn btn-neutral btn-sm w-fit"
-                            link="#" />
+                            link="{{ route('moment.show', $moment->slug) }}" />
                     </div>
                 </figure>
             </div>
