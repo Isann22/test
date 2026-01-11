@@ -26,7 +26,7 @@
         <div class="mb-10 text-left">
             <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-2">Photography for Every Milestone</h2>
             <p class="text-base-content/70 text-lg">Get inspired to create your own beautiful moments!</p>
-            <a href="{{ route('destinations.index') }}"
+            <a href="{{ route('moments.index') }}"
                 class="text-primary text-sm font-bold hover:bg-transparent hover:underline">
                 See All Moments <x-mary-icon name="o-arrow-right" class="w-4 h-4 " />
             </a>

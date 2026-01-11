@@ -18,6 +18,8 @@ Route::view('/photographer', 'components.pages.photographer')->name('photographe
 Route::get('/destinations', App\Livewire\Front\City\Index::class)->name('destinations.index');
 Route::get('/destination/{city:slug}', App\Livewire\Front\City\Show::class)->name('cities.show');
 
+Route::get('/moments', App\Livewire\Front\Moment\Index::class)->name('moments.index');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
