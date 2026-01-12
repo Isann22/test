@@ -46,7 +46,7 @@
                             class="absolute inset-0 bg-linear-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-5">
                             <h3 class="text-xl font-bold text-white mb-1">{{ $moment->name }}</h3>
                             <x-mary-button label="Explore" icon="o-arrow-right" class="btn btn-neutral btn-sm w-fit"
-                                link="#" />
+                                link="{{ route('moments.show', $moment->slug) }}" />
                         </div>
                     </figure>
                 </div>
