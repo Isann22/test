@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Welcome::class)->name('home');
 
-
+Route::get('/reserve/{city:slug}', App\Livewire\Front\Reserve\Step\ChoseePackage::class);
 // Photographer
 Route::prefix('photographer')->name('photographer.')->group(function () {
     Route::view('/', 'components.pages.photographer')->name('index');
