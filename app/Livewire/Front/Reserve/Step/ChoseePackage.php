@@ -2,23 +2,15 @@
 
 namespace App\Livewire\Front\Reserve\Step;
 
-use App\Models\City;
-use Livewire\Attributes\Layout;
 use Spatie\LivewireWizard\Components\StepComponent;
 
-#[Layout('components.layouts.app')]
 class ChoseePackage extends StepComponent
 {
-    public City $city;
-
-    public function mount(City $city)
-    {
-        $this->city = $city;
-    }
+    public $cityName = '';
+    public $price = 0;
 
     public function submit()
     {
-
         $this->nextStep();
     }
 

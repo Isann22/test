@@ -85,18 +85,29 @@
 
             <div class="lg:col-span-1">
                 <div class="sticky top-24 space-y-6">
-
                     <div class="card bg-base-100 shadow-2xl border-t-4 border-primary">
                         <div class="card-body">
-                            <h3 class="text-lg font-medium text-gray-500">Book This City</h3>
+                            <h3 class="text-lg font-medium text-gray-500">{{ $city->name }}</h3>
+                            <p>Start From <span> {{ number_format($city->price, 0, ',', '.') }}</span></p>
 
                             <div class="divider my-2"></div>
+                            <ul class="space-y-3 text-sm text-gray-600 mb-6">
+                                <li class="flex items-center gap-2">
+                                    <x-mary-icon name="o-check-circle" class="w-5 h-5 text-success" />
+                                    <span>Professional Photographer</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <x-mary-icon name="o-check-circle" class="w-5 h-5 text-success" />
+                                    <span>30+ Edited Photos</span>
+                                </li>
+                            </ul>
+
 
                             <div class="form-control w-full mb-4">
                                 <label class="label">
                                     <span class="label-text font-semibold">Select Moment</span>
                                 </label>
-                                <x-mary-select wire:model.live="selectedMoment" :options="$this->moments" option-value="id"
+                                <x-mary-select wire:model.live="selectedMoment" :options="$this->moments" option-value="slug"
                                     option-label="name" placeholder="Choose a moment..." class="select-bordered" />
                             </div>
 
@@ -107,31 +118,11 @@
                                         {{ number_format($city->price, 0, ',', '.') }}
                                     </span>
                                 </div>
-                            @else
-                                <div class="text-center text-gray-400 py-4">
-                                    <x-mary-icon name="o-sparkles" class="w-8 h-8 mx-auto mb-2" />
-                                    <p class="text-sm">Select a moment to see the price</p>
-                                </div>
                             @endif
 
-                            <div class="divider my-2"></div>
 
-                            <ul class="space-y-3 text-sm text-gray-600 mb-6">
-                                <li class="flex items-center gap-2">
-                                    <x-mary-icon name="o-check-circle" class="w-5 h-5 text-success" />
-                                    <span>Professional Photographer</span>
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <x-mary-icon name="o-check-circle" class="w-5 h-5 text-success" />
-                                    <span>30+ Edited Photos</span>
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <x-mary-icon name="o-check-circle" class="w-5 h-5 text-success" />
-                                    <span>1-2 Hours Session</span>
-                                </li>
-                            </ul>
 
-                            <button class="btn btn-primary btn-block text-white shadow-lg group"
+                            <button wire:click='reserve' class="btn btn-primary btn-block text-white shadow-lg group"
                                 @disabled(!$selectedMoment)>
                                 Book Now
                                 <x-mary-icon name="o-arrow-right"
@@ -142,13 +133,7 @@
                         </div>
                     </div>
 
-                    <div class="alert shadow-lg bg-white">
-                        <x-mary-icon name="o-chat-bubble-left-right" class="text-info w-6 h-6" />
-                        <div>
-                            <h3 class="font-bold text-sm">Need Help?</h3>
-                            <div class="text-xs text-gray-500">Chat with our support team</div>
-                        </div>
-                    </div>
+
 
                 </div>
             </div>

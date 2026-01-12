@@ -20,9 +20,14 @@ class Show extends Component
     #[Computed]
     public function moments()
     {
-        return Moment::select('id', 'name')
+        return Moment::select('id', 'name', 'slug')
             ->orderBy('name')
             ->get();
+    }
+
+    public function reserve()
+    {
+        return redirect()->route('reserve', ['city' => $this->city->slug, 'moment' => $this->selectedMoment]);
     }
 
     public function render()

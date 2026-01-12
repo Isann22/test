@@ -25,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
         //
 
         Livewire::component('reserve-wizard', ReserveWizardComponent::class);
-        Livewire::component('chose-package', ChoseePackage::class);
+        Livewire::component('chosee-package', ChoseePackage::class);
     }
 }
