@@ -15,9 +15,8 @@ class ReserveWizardComponent extends WizardComponent
     public function steps(): array
     {
         return [
-            PhotoshootDetails::class,
             ChoseePackage::class,
-
+            PhotoshootDetails::class,
         ];
     }
 
