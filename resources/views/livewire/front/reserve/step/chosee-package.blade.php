@@ -15,7 +15,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-9 px-4 py-12  justify-center place-items-center">
               <div class="w-full  bg-gray-300 rounded-xl">
-                  <x-mary-card title="{{ $cityName }}" shadow separator class="bg-base !shadow-2xl">
+                  <x-mary-card title="{{ $cityName }}" shadow separator class="bg-base shadow-2xl!">
                       <ul>
                           <li>1 Hour Duration</li>
 
@@ -24,7 +24,7 @@
                           <li>20 Downloadable Photos</li>
 
                       </ul>
-                      <x-slot:actions separator class="!flex !justify-between !align-middle">
+                      <x-slot:actions separator class="flex! justify-between! align-middle!">
                           <span class="text-2xl font-extrabold text-primary">
 
                               {{ number_format($price, 0, ',', '.') }}

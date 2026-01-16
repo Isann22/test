@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="lg:col-span-1">
-                    <x-mary-card class="bg-base-100 border border-base-200 !p-0 shadow-sm" separator>
+                    <x-mary-card class="bg-base-100 border border-base-200 p-0! shadow-sm" separator>
                         <x-slot:title>
                             <div class="px-4 py-2">
                                 <span class="text-lg font-bold text-base-content">Booking Details</span>
