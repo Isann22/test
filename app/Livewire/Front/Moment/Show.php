@@ -20,9 +20,20 @@ class Show extends Component
     #[Computed]
     public function cities()
     {
-        return City::select('id', 'name', 'price')
+        return City::select('id', 'name', 'price', 'slug')
             ->orderBy('name')
             ->get();
+    }
+
+    #[Computed]
+    public function selectedCityData()
+    {
+        return $this->cities->firstWhere('slug', $this->selectedCity);
+    }
+
+    public function reserve()
+    {
+        return redirect()->route('reserve', ['city' => $this->selectedCity, 'moment' => $this->moment->slug]);
     }
 
     public function render()
