@@ -12,6 +12,7 @@
           <div class="mt-8 flex justify-center">
               @include('livewire.front.reserve.navigation')
           </div>
+
           <div class="grid grid-cols-1 md:grid-cols-3 gap-9 px-4 py-12  justify-center place-items-center">
               <div class="w-full  bg-gray-300 rounded-xl">
                   <x-mary-card title="{{ $cityName }}" shadow separator class="bg-base !shadow-2xl">
@@ -21,23 +22,25 @@
                           <li>50+ Edited Photos</li>
 
                           <li>20 Downloadable Photos</li>
+
                       </ul>
                       <x-slot:actions separator class="!flex !justify-between !align-middle">
                           <span class="text-2xl font-extrabold text-primary">
 
                               {{ number_format($price, 0, ',', '.') }}
                           </span>
+
+                          <input type="hidden" name="cityName" value="{{ $cityName }}">
+                          <input type="hidden" name="momentId" value={{ $momentId }}>
+                          <input type="hidden" name="price" value={{ $price }}>
+                          <input type="hidden" name="price" value={{ $cityId }}>
+                          <input type="hidden" name="price" value={{ $momentName }}>
+
                           <x-mary-button wire:click='submit' label="Select" class="btn-primary btn-sm" />
 
                       </x-slot:actions>
                   </x-mary-card>
               </div>
-
-
-
-
-
-
 
           </div>
       </div>

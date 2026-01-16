@@ -6,7 +6,10 @@ use Spatie\LivewireWizard\Components\StepComponent;
 
 class ChoseePackage extends StepComponent
 {
+    public $cityId = '';
     public $cityName = '';
+    public $momentId = '';
+    public $momentName = '';
     public $price = 0;
 
     public function submit()

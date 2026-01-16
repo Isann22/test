@@ -56,38 +56,40 @@
                 </div>
 
                 <div class="lg:col-span-1">
-                    <h3 class="font-bold text-lg mb-4 text-base-content">Booking Details</h3>
+                    <x-mary-card class="bg-base-100 border border-base-200 !p-0 shadow-sm" separator>
+                        <x-slot:title>
+                            <div class="px-4 py-2">
+                                <span class="text-lg font-bold text-base-content">Booking Details</span>
+                            </div>
+                        </x-slot:title>
 
-                    <div class="card bg-base-100 border border-base-200 shadow-sm">
-                        <div class="card-body p-6">
-                            <h2 class="text-xl font-bold text-primary">Pre-wedding</h2>
+                        <div class="px-4 space-y-4">
+                            <h2 class="text-xl font-bold text-base-content">{{ $package['momentName'] }}</h2>
 
-                            <div class="mt-4 space-y-3">
+                            <div class="space-y-2">
                                 <div class="flex items-center gap-3 text-base-content/70">
                                     <x-mary-icon name="o-map-pin" class="w-5 h-5" />
-                                    <span>lorem</span>
+                                    <span class="text-base-content">{{ $package['cityName'] }}</span>
                                 </div>
                                 <div class="flex items-center gap-3 text-base-content/70">
                                     <x-mary-icon name="o-clock" class="w-5 h-5" />
-                                    <span>lorem</span>
+                                    <span class="text-base-content">lorem</span>
                                 </div>
                             </div>
 
                             <div class="divider my-2"></div>
 
-                            <div class="flex justify-between items-end">
+                            <div class="flex justify-between items-center">
                                 <span class="text-sm text-base-content/60">Subtotal</span>
-                                <div class="text-right">
-                                    <div class="text-xl font-bold text-warning">USD 269</div>
-                                    <div class="text-xs text-base-content/50">Approx. IDR 4.510.000</div>
+                                <div class="text-xl font-bold text-neutral">
+                                    Rp {{ number_format($package['price'], 0, ',', '.') }}
                                 </div>
                             </div>
 
-                            <x-mary-button label="Checkout" class="btn-primary w-full mt-6 text-white font-bold"
+                            <x-mary-button label="Checkout" class="mb-4 btn-primary w-full text-white font-bold"
                                 wire:click="checkout" />
                         </div>
-                    </div>
-
+                    </x-mary-card>
 
                 </div>
             </div>

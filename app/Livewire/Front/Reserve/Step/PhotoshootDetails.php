@@ -15,6 +15,8 @@ class PhotoshootDetails extends StepComponent
     }
     public function render()
     {
-        return view('livewire.front.reserve.step.photoshoot-details');
+        return view('livewire.front.reserve.step.photoshoot-details', [
+            'package' => $this->state()->packageStates(),
+        ]);
     }
 }
