@@ -4,7 +4,7 @@ namespace App\Livewire\Front\Reserve;
 
 use App\Models\City;
 use App\Support\ReserveWizardState;
-use App\Livewire\Front\Reserve\Step\ChoseePackage;
+use App\Livewire\Front\Reserve\Step\ChoosePackage;
 use App\Livewire\Front\Reserve\Step\PhotoshootDetails;
 use App\Models\Moment;
 use Spatie\LivewireWizard\Components\WizardComponent;
@@ -18,7 +18,7 @@ class ReserveWizardComponent extends WizardComponent
     public function steps(): array
     {
         return [
-            ChoseePackage::class,
+            ChoosePackage::class,
             PhotoshootDetails::class,
         ];
     }
@@ -32,11 +32,11 @@ class ReserveWizardComponent extends WizardComponent
     public function initialState(): array
     {
 
-        $city = City::where('slug', $this->citySlug)->firstOrFail();
+        $city = City::select('id', 'name', 'price')->where('slug', $this->citySlug)->firstOrFail();
         $moment = Moment::select('id', 'name')->where('slug', $this->momentSlug)->firstOrFail();
 
         return [
-            'chosee-package' => [
+            'choose-package' => [
                 'cityId' => $city->id,
                 'cityName' => $city->name,
                 'momentId' => $moment->id,

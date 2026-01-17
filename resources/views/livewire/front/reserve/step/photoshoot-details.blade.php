@@ -18,8 +18,8 @@
                         <h2 class="text-xl font-bold text-base-content border-b pb-2">Fill Your Photo Details</h2>
 
                         <div>
-                            <x-mary-datetime label="Date" wire:model="bookingDate" icon="o-calendar"
-                                hint="Select your preferred date" class="w-full" />
+                            <x-mary-datetime label="Date" icon="o-calendar" hint="Select your preferred date"
+                                class="w-full" />
                         </div>
 
                         <div>
@@ -31,8 +31,7 @@
                         </div>
 
                         <div>
-                            <x-mary-input label="Pax" type="number" wire:model="pax" placeholder="Number of people"
-                                min="1" />
+                            <x-mary-input label="Pax" type="number" placeholder="Number of people" min="1" />
                         </div>
                     </div>
 
@@ -86,8 +85,7 @@
                                 </div>
                             </div>
 
-                            <x-mary-button label="Checkout" class="mb-4 btn-primary w-full text-white font-bold"
-                                wire:click="checkout" />
+                            <x-mary-button label="Checkout" class="mb-4 btn-primary w-full text-white font-bold" />
                         </div>
                     </x-mary-card>
 

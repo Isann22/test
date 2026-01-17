@@ -4,7 +4,7 @@ namespace App\Livewire\Front\Reserve\Step;
 
 use Spatie\LivewireWizard\Components\StepComponent;
 
-class ChoseePackage extends StepComponent
+class ChoosePackage extends StepComponent
 {
     public $cityId = '';
     public $cityName = '';
@@ -26,6 +26,6 @@ class ChoseePackage extends StepComponent
 
     public function render()
     {
-        return view('livewire.front.reserve.step.chosee-package');
+        return view('livewire.front.reserve.step.choose-package');
     }
 }

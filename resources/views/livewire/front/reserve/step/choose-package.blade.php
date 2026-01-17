@@ -30,11 +30,6 @@
                               {{ number_format($price, 0, ',', '.') }}
                           </span>
 
-                          <input type="hidden" name="cityName" value="{{ $cityName }}">
-                          <input type="hidden" name="momentId" value={{ $momentId }}>
-                          <input type="hidden" name="price" value={{ $price }}>
-                          <input type="hidden" name="price" value={{ $cityId }}>
-                          <input type="hidden" name="price" value={{ $momentName }}>
 
                           <x-mary-button wire:click='submit' label="Select" class="btn-primary btn-sm" />
 

@@ -1,3 +1,3 @@
 <x-layouts.app>
-    <livewire:reserve-wizard show-step="chosee-package" :city='$city' :moment='$moment' />
+    <livewire:reserve-wizard show-step="choose-package" :='$city' :='$moment' />
 </x-layouts.app>

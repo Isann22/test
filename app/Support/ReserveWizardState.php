@@ -2,7 +2,6 @@
 
 namespace App\Support;
 
-use App\Models\City;
 use Spatie\LivewireWizard\Support\State;
 
 class ReserveWizardState extends State
@@ -10,7 +9,7 @@ class ReserveWizardState extends State
 
     public function packageStates(): array
     {
-        $choseePackagetepState = $this->forStep('chosee-package');
+        $choseePackagetepState = $this->forStep('choose-package');
 
         return [
             'cityName' => $choseePackagetepState['cityName'],
