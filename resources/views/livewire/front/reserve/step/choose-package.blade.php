@@ -30,8 +30,8 @@
                               {{ number_format($price, 0, ',', '.') }}
                           </span>
 
-
-                          <x-mary-button wire:click='submit' label="Select" class="btn-primary btn-sm" />
+                          <x-mary-button label="Select" wire:click="submit" spinner="submit"
+                              class="btn-primary btn-sm" />
 
                       </x-slot:actions>
                   </x-mary-card>

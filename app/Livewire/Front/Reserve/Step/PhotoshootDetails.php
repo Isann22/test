@@ -13,6 +13,8 @@ class PhotoshootDetails extends StepComponent
             'label' => 'photoshoot details',
         ];
     }
+
+
     public function render()
     {
         return view('livewire.front.reserve.step.photoshoot-details', [
