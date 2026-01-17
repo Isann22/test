@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Welcome::class)->name('home');
 
+Route::get('/reserve/{city:slug}/{moment:slug}', App\Livewire\Front\Reserve\ReserveWizardComponent::class)->name('reserve');
 
 // Photographer
 Route::prefix('photographer')->name('photographer.')->group(function () {

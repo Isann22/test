@@ -70,18 +70,15 @@
                                 <label class="label">
                                     <span class="label-text font-semibold">Select City</span>
                                 </label>
-                                <x-mary-select wire:model.live="selectedCity" :options="$this->cities" option-value="id"
+                                <x-mary-select wire:model.live="selectedCity" :options="$this->cities" option-value="slug"
                                     option-label="name" placeholder="Choose a city..." class="select-bordered" />
                             </div>
 
-                            @if ($selectedCity)
-                                @php
-                                    $city = $this->cities->firstWhere('id', $selectedCity);
-                                @endphp
+                            @if ($this->selectedCityData)
                                 <div class="flex items-baseline gap-1 my-2">
                                     <span class="text-xs font-bold text-gray-500 relative -top-4">IDR</span>
                                     <span class="text-4xl font-extrabold text-primary">
-                                        {{ number_format($city->price, 0, ',', '.') }}
+                                        {{ number_format($this->selectedCityData->price, 0, ',', '.') }}
                                     </span>
                                 </div>
                             @else
@@ -108,7 +105,7 @@
                                 </li>
                             </ul>
 
-                            <button class="btn btn-primary btn-block text-white shadow-lg group"
+                            <button class="btn btn-primary btn-block text-white shadow-lg group" wire:click="reserve"
                                 @disabled(!$selectedCity)>
                                 Book Now
                                 <x-mary-icon name="o-arrow-right"
