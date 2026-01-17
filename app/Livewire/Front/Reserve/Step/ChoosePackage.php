@@ -2,48 +2,103 @@
 
 namespace App\Livewire\Front\Reserve\Step;
 
+use App\Models\City;
+use App\Models\Package;
 use Masmerise\Toaster\Toaster;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Computed;
 use Illuminate\Validation\ValidationException;
 use Spatie\LivewireWizard\Components\StepComponent;
 
 class ChoosePackage extends StepComponent
 {
     #[Locked]
-    public $cityId = '';
+    public string $cityId = '';
 
     #[Locked]
-    public $cityName = '';
+    public string $cityName = '';
 
     #[Locked]
-    public $momentId = '';
+    public string $momentId = '';
 
     #[Locked]
-    public $momentName = '';
+    public string $momentName = '';
+
+    public ?string $selectedPackageId = null;
 
     #[Locked]
-    public $price = 0;
+    public float $price = 0;
 
+    #[Locked]
+    public int $hourDuration = 0;
 
-    protected function rules()
+    #[Locked]
+    public int $editedPhotos = 0;
+
+    #[Locked]
+    public int $downloadablePhotos = 0;
+
+    protected function rules(): array
     {
         return [
-            'cityId'   => ['required', 'string', 'exists:cities,id'],
-            'momentId' => ['required', 'string', 'exists:moments,id'],
-            'cityName'   => ['required', 'string'],
+            'cityId' => ['required', 'uuid', 'exists:cities,id'],
+            'momentId' => ['required', 'uuid', 'exists:moments,id'],
+            'cityName' => ['required', 'string'],
             'momentName' => ['required', 'string'],
-            'price'      => ['required', 'numeric', 'min:0'],
+            'selectedPackageId' => ['required', 'uuid', 'exists:packages,id'],
+            'price' => ['required', 'numeric', 'min:1'],
         ];
     }
 
-    public function submit()
+    #[Computed]
+    public function packages()
+    {
+        if (empty($this->cityId)) {
+            return collect();
+        }
+
+        $city = City::where('id', $this->cityId)
+            ->with(['packages' => function ($query) {
+                $query->select('packages.id', 'packages.name', 'packages.hour_duration', 
+                               'packages.downloadable_photos', 'packages.edited_photos');
+            }])
+            ->first();
+
+        return $city?->packages ?? collect();
+    }
+
+    public function selectPackage(string $packageId): void
+    {
+        $package = $this->packages->firstWhere('id', $packageId);
+
+        if (!$package) {
+            Toaster::error('Package not found.');
+            return;
+        }
+
+        $this->selectedPackageId = $packageId;
+        $this->price = (float) $package->pivot->price;
+        $this->hourDuration = (int) $package->hour_duration;
+        $this->editedPhotos = (int) $package->edited_photos;
+        $this->downloadablePhotos = (int) $package->downloadable_photos;
+    }
+
+    public function selectAndContinue(string $packageId): void
+    {
+        $this->selectPackage($packageId);
+        
+        if ($this->selectedPackageId) {
+            $this->submit();
+        }
+    }
+
+    public function submit(): void
     {
         try {
             $this->validate();
             $this->nextStep();
         } catch (ValidationException $e) {
-            Toaster::error("System error occurred. Please refresh the page and try again.");
-
+            Toaster::error('Please select a package to continue.');
             return;
         }
     }
@@ -51,7 +106,7 @@ class ChoosePackage extends StepComponent
     public function stepInfo(): array
     {
         return [
-            'label' => 'Chose Package',
+            'label' => 'Choose Package',
         ];
     }
 
