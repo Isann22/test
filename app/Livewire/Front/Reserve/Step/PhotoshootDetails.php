@@ -27,6 +27,19 @@ class PhotoshootDetails extends StepComponent
     #[Validate('nullable|string|max:1000')]
     public ?string $additionalInfo = null;
 
+  
+    public function mount(): void
+    {
+        $stepState = $this->state()->forStep('photoshoot-details');
+        
+        $this->date = $stepState['date'] ?? null;
+        $this->time = $stepState['time'] ?? null;
+        $this->pax = (int) ($stepState['pax'] ?? 1);
+        $this->location = $stepState['location'] ?? null;
+        $this->locationDetails = $stepState['locationDetails'] ?? null;
+        $this->additionalInfo = $stepState['additionalInfo'] ?? null;
+    }
+
     public function submit(): void
     {
         try {

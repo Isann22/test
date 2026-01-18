@@ -80,7 +80,6 @@
                                         Rp {{ number_format($package['price'], 0, ',', '.') }}
                                     </div>
                                 </div>
-
                                 <x-mary-button label="Checkout" wire:click="submit" spinner="submit"
                                     class="mb-4 btn-primary w-full text-white font-bold" icon-right="o-arrow-right" />
                             </div>

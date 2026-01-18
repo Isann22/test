@@ -1,4 +1,30 @@
-<div>
+<div x-data="{ snapToken: '' }"
+    x-on:open-snap-popup.window="
+        snapToken = $event.detail.token;
+        console.log('Opening Snap popup with token:', snapToken);
+        if (typeof window.snap !== 'undefined') {
+            window.snap.pay(snapToken, {
+                onSuccess: function(result) {
+                    console.log('Payment success:', result);
+                    window.location.href = '{{ route('reserved.index') }}';
+                },
+                onPending: function(result) {
+                    console.log('Payment pending:', result);
+                    Livewire.dispatch('payment-pending', { result: result });
+                },
+                onError: function(result) {
+                    console.log('Payment error:', result);
+                    alert('Payment failed! Please try again.');
+                },
+                onClose: function() {
+                    Livewire.dispatch('payment-closed');
+                    console.log('Popup closed');
+                }
+            });
+        } else {
+            alert('Payment gateway not ready. Please refresh the page.');
+        }
+    ">
     <div class="text-center h-52 bg-base-200 p-5">
         <h1 class="text-4xl text-center font-bold text-base-content">Confirm Your Booking</h1>
         <p class="text-base-content/60 mt-2">Review your booking details before payment</p>

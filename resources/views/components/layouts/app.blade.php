@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:200,300,400,500,600,700,800" rel="stylesheet" />
+
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('midtrans.client_key') }}"></script>
+
     <title>{{ $title ?? config('app.name') }}</title>
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -35,6 +39,9 @@
     <x-user-drawer />
 
     <x-toaster-hub />
+
+
+    @stack('scripts')
     @livewireScriptConfig
 </body>
 
