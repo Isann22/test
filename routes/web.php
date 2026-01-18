@@ -55,6 +55,11 @@ Route::get('/settings', App\Livewire\Setting\Profile::class)
     ->middleware(['auth', 'verified'])
     ->name('settings');
 
+// My Reservations
+Route::get('/my-reservations', App\Livewire\Reserved\Index::class)
+    ->middleware(['auth', 'verified'])
+    ->name('reserved.index');
+
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [App\Http\Controllers\oauth\GoogleController::class, 'callback'])->name('auth.google.callback');
 Route::get('login/facebook', [App\Http\Controllers\oauth\FacebookController::class, 'redirect'])->name('auth.facebook.redirect');
