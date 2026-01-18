@@ -8,13 +8,10 @@
     <form x-data="{
         step: 1,
         loading: false,
-        init() {
-            if (typeof window.intlTelInput !== 'function') {
-                console.error('intlTelInput library not loaded yet');
-                return;
-            }
+        iti: null,
+        initPhoneInput() {
             const input = this.$refs.phoneInput;
-            if (input) {
+            if (input && !this.iti) {
                 this.iti = window.intlTelInput(input, {
                     initialCountry: 'id',
                     showFlags: false,
@@ -26,6 +23,17 @@
                     utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@20.3.0/build/js/utils.js'
                 });
             }
+        },
+        init() {
+            // Retry initialization until intlTelInput is available
+            const tryInit = () => {
+                if (typeof window.intlTelInput === 'function') {
+                    this.initPhoneInput();
+                } else {
+                    setTimeout(tryInit, 100);
+                }
+            };
+            tryInit();
         },
         async nextStep() {
             this.loading = true;
@@ -85,7 +93,7 @@
                     Back
                 </button>
 
-                <button @click.prevent="submitRegistration()" class="btn-neutral text-base-100 px-4 py-2 flex-1">
+                <button @click.prevent="submitRegistration()" class="btn btn-neutral text-base-100 px-4 py-2 flex-1">
                     <span wire:loading.remove wire:target="register">Sign Up</span>
                     <x-spinner class="size-6" wire:loading wire:target="register" />
                 </button>

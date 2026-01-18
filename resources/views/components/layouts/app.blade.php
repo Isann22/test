@@ -32,6 +32,8 @@
     </main>
     <x-footer />
 
+    <x-user-drawer />
+
     <x-toaster-hub />
     @livewireScriptConfig
 </body>
