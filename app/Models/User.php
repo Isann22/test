@@ -102,4 +102,9 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->verification_code_expires_at &&
             $this->verification_code_expires_at->gt(now());
     }
+
+    public function reservations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }
