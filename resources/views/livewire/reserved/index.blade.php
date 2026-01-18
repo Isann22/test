@@ -111,7 +111,8 @@
 
                                     @if ($reservation->status->value === 'pending')
                                         <div class="flex gap-2">
-                                            <button class="btn btn-sm btn-primary">
+                                            <button class="btn btn-sm btn-primary"
+                                                wire:click="submit('{{ $reservation->id }}', '{{ $reservation->payment->gateway_response['snap_token'] }}')">
                                                 <x-mary-icon name="o-credit-card" class="w-4 h-4" />
                                                 Pay Now
                                             </button>
@@ -138,3 +139,43 @@
         @endif
     </div>
 </div>
+
+
+@push('scripts')
+    <script>
+        document.addEventListener('livewire:init', function() {
+            let currentReservationId = null;
+
+            Livewire.on('open-snap-popup', function(event) {
+                const snapToken = event.token;
+                currentReservationId = event.reservationId;
+
+                snap.pay(snapToken, {
+                    onSuccess: function(result) {
+
+                        Livewire.dispatch('payment-success', {
+                            reservationId: currentReservationId,
+                            result: result
+                        });
+                    },
+                    onPending: function(result) {
+
+                        Livewire.dispatch('payment-pending', {
+                            result: result
+                        });
+                    },
+                    onError: function(result) {
+
+                        Livewire.dispatch('payment-error', {
+                            reservationId: currentReservationId,
+                            result: result
+                        });
+                    },
+                    onClose: function() {
+                        Livewire.dispatch('payment-closed');
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
