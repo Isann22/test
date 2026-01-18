@@ -14,7 +14,7 @@
         <div x-show="open" x-transition:enter="transition ease-in-out duration-300 transform"
             x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
             x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0"
-            x-transition:leave-end="translate-x-full" class="fixed top-0 right-0 h-full w-60 bg-base-200 z-[999] shadow-xl"
+            x-transition:leave-end="translate-x-full" class="fixed top-0 right-0 h-full w-72 bg-base-100 z-[999] shadow-xl"
             x-cloak>
 
             {{-- Close Button --}}
@@ -22,46 +22,66 @@
                 <x-mary-icon name="o-x-mark" class="w-5 h-5" />
             </button>
 
-            <div class="p-0 pt-4">
+            <div class="p-6 pt-14">
                 {{-- User Info --}}
-                <div class="flex flex-col items-center gap-4 mb-2">
+                <div class="flex flex-col items-center gap-3 mb-6">
+                    <div class="avatar placeholder">
+                        <div class="flex items-center justify-center bg-primary text-primary-content rounded-full w-16">
+                            <span class="text-2xl">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                        </div>
+                    </div>
                     <div class="text-center">
-                        <p class="font-semibold text-lg">{{ auth()->user()->name }}</p>
-                        <p class="text-sm text-gray-500">{{ auth()->user()->email }}</p>
+                        <p class="font-semibold text-lg text-base-content">{{ auth()->user()->name }}</p>
+                        <p class="text-sm text-base-content/60">{{ auth()->user()->email }}</p>
                     </div>
                 </div>
 
-                <div class="divider"></div>
+                <div class="divider my-4"></div>
 
                 {{-- Menu Items --}}
-                <ul class="menu gap-2">
+                <ul class="menu menu-lg p-0 gap-1">
                     @if (!auth()->user()->hasVerifiedEmail())
                         <li>
-                            <x-nav-link href="{{ route('verification.notice') }}" :active="request()->routeIs('verification.notice')" wire:navigate>
+                            <a href="{{ route('verification.notice') }}" wire:navigate
+                                class="{{ request()->routeIs('verification.notice') ? 'active' : '' }}">
                                 <x-mary-icon name="o-envelope" class="w-5 h-5" />
                                 Verify Email
-                            </x-nav-link>
+                            </a>
                         </li>
                     @else
                         <li>
-                            <x-mary-button label="Profile" icon="o-user" link="{{ route('settings') }}" class="w-full" />
+                            <a href="{{ route('settings') }}" wire:navigate
+                                class="{{ request()->routeIs('settings') ? 'active' : '' }}">
+                                <x-mary-icon name="o-user" class="w-5 h-5" />
+                                Profile
+                            </a>
                         </li>
-
                         <li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                @method('DELETE')
-                                <x-mary-button label="Logout" icon="o-arrow-right-on-rectangle" class="w-full" />
-                            </form>
+                            <a href="{{ route('reserved.index') }}" wire:navigate
+                                class="{{ request()->routeIs('reserved.index') ? 'active' : '' }}">
+                                <x-mary-icon name="o-calendar-days" class="w-5 h-5" />
+                                My Reservations
+                            </a>
                         </li>
                     @endif
-
-
                 </ul>
 
+                {{-- Logout at bottom --}}
+                @if (auth()->user()->hasVerifiedEmail())
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <div class="divider my-4"></div>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="btn btn-ghost btn-block justify-start text-error hover:bg-error/10">
+                                <x-mary-icon name="o-arrow-right-on-rectangle" class="w-5 h-5" />
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                @endif
             </div>
-
-
         </div>
     </div>
 @endauth

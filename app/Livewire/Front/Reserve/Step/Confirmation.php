@@ -47,11 +47,9 @@ class Confirmation extends StepComponent
                 Auth::id()
             );
 
-            // 5. Success - redirect to payment or confirmation page
+            // 5. Success - redirect to reservations page
             Toaster::success('Reservation created successfully!');
-            
-            // TODO: Redirect to payment page when ready
-            $this->redirect(route('home'));
+            $this->redirect(route('reserved.index'));
 
         } catch (\Exception $e) {
             Toaster::error('Failed to create reservation. Please try again. ' . $e->getMessage());
