@@ -38,6 +38,22 @@ class ChoosePackage extends StepComponent
     #[Locked]
     public int $downloadablePhotos = 0;
 
+
+    public function mount(): void
+    {
+        $stepState = $this->state()->forStep('choose-package');
+        
+        $this->cityId = $stepState['cityId'] ?? '';
+        $this->cityName = $stepState['cityName'] ?? '';
+        $this->momentId = $stepState['momentId'] ?? '';
+        $this->momentName = $stepState['momentName'] ?? '';
+        $this->selectedPackageId = $stepState['selectedPackageId'] ?? null;
+        $this->price = (float) ($stepState['price'] ?? 0);
+        $this->hourDuration = (int) ($stepState['hourDuration'] ?? 0);
+        $this->editedPhotos = (int) ($stepState['editedPhotos'] ?? 0);
+        $this->downloadablePhotos = (int) ($stepState['downloadablePhotos'] ?? 0);
+    }
+
     protected function rules(): array
     {
         return [

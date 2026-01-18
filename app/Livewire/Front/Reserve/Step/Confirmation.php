@@ -6,11 +6,21 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Services\ReservationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Livewire\Attributes\On;
 use Masmerise\Toaster\Toaster;
 use Spatie\LivewireWizard\Components\StepComponent;
 
 class Confirmation extends StepComponent
 {
+    /**
+     * Handle when user closes the payment popup.
+     */
+    #[On('payment-closed')]
+    public function handlePaymentClosed(): void
+    {
+        Toaster::info('Payment was not completed. You can continue payment from your reservations.');
+        $this->redirect(route('reserved.index'));
+    }
     /**
      * Confirm and save the booking to database.
      */
@@ -47,12 +57,12 @@ class Confirmation extends StepComponent
                 Auth::id()
             );
 
-            // 5. Success - redirect to reservations page
-            Toaster::success('Reservation created successfully!');
-            $this->redirect(route('reserved.index'));
-
+            $snapToken = $reservation->payment->gateway_response['snap_token'];
+            
+            // Dispatch browser event for Alpine.js to catch
+            $this->dispatch('open-snap-popup', token: $snapToken);
         } catch (\Exception $e) {
-            Toaster::error('Failed to create reservation. Please try again. ' . $e->getMessage());
+            Toaster::error('Failed to create reservation. Please try again.' .$e->getMessage());
             report($e); // Log error for debugging
         }
     }

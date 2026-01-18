@@ -33,6 +33,8 @@
                                 Rp {{ number_format($package->pivot->price, 0, ',', '.') }}
                             </span>
 
+
+
                             <x-mary-button label="Select" wire:click="selectAndContinue('{{ $package->id }}')"
                                 spinner="selectAndContinue('{{ $package->id }}')" class=" btn-primary" />
                         </x-slot:actions>
