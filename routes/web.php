@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Welcome::class)->name('home');
 
-Route::get('/reserve/{city:slug}/{moment:slug}', App\Livewire\Front\Reserve\ReserveWizardComponent::class)->name('reserve');
+Route::get('/reserve/{city:slug}/{moment:slug}', App\Livewire\Front\Reserve\ReserveWizardComponent::class)
+    ->middleware(['auth', 'verified'])
+    ->name('reserve');
 
 // Photographer
 Route::prefix('photographer')->name('photographer.')->group(function () {
-    Route::view('/', 'components.pages.photographer')->name('index');
+    Route::view('/', 'pages.photographer')->name('index');
     Route::get('/photographer-join', App\Livewire\Front\PhotographerApplicant\Create::class)->name('create');
 });
 
@@ -39,7 +41,7 @@ Route::middleware('guest')->group(function () {
 
 Route::delete('/logout', [Login::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::get('/email/verify', Verify::class)->name('verification.notice');
+Route::get('/email/verify', Verify::class)->middleware('auth')->name('verification.notice');
 
 Route::post('/email/verification-notification', [Verify::class, 'sendVerifyMail'])
     ->middleware(['auth', 'throttle:6,1'])->name('verification.send');
@@ -47,6 +49,11 @@ Route::post('/email/verification-notification', [Verify::class, 'sendVerifyMail'
 Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
 Route::get('/reset-password/{token}', ResetPassword::class)->middleware('guest')->name('password.reset');
 
+
+// User Settings
+Route::get('/settings', App\Livewire\Setting\Profile::class)
+    ->middleware(['auth', 'verified'])
+    ->name('settings');
 
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [App\Http\Controllers\oauth\GoogleController::class, 'callback'])->name('auth.google.callback');
