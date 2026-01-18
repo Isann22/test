@@ -104,7 +104,8 @@
                             </p>
 
                             <x-mary-button label="Continue to Payment" class="btn-primary w-full mt-4"
-                                icon-right="o-arrow-right" />
+                                icon-right="o-arrow-right" wire:click="confirmBooking" wire:loading.attr="disabled"
+                                spinner="confirmBooking" />
                         </div>
                     </div>
                 </div>
