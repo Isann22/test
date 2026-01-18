@@ -120,6 +120,12 @@
                                                 Cancel
                                             </button>
                                         </div>
+                                    @elseif (in_array($reservation->status->value, ['confirmed', 'in_progress', 'completed']))
+                                        <a href="{{ route('reserved.show', $reservation) }}"
+                                            class="btn btn-sm btn-outline btn-primary">
+                                            <x-mary-icon name="o-eye" class="w-4 h-4" />
+                                            View Details
+                                        </a>
                                     @endif
 
                                     <p class="text-xs text-base-content/40">
