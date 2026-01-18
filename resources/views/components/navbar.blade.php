@@ -7,7 +7,7 @@
                 <x-mary-icon name="o-bars-3" class="w-6 h-6" />
             </label>
 
-            <a href="/" wire:navigate class="text-xl font-bold btn btn-ghost normal-case px-2">
+            <a href="/" wire:navigate class="text-sm lg:text-xl font-bold btn btn-ghost normal-case px-2">
                 {{ config('app.name') }}
             </a>
 
@@ -44,14 +44,18 @@
                 </button>
             </div>
 
-            <div class="hidden md:flex gap-2">
+            <div class="flex gap-2">
                 @guest
                     <x-mary-button label="Log in" link="{{ route('login') }}" class="btn-neutral btn-sm" />
 
                 @endguest
 
                 @auth
-                    <x-mary-button icon="o-user" class="btn-circle btn-ghost btn-sm" link="/dashboard" />
+                    <label for="user-drawer" class="btn btn-circle btn-ghost btn-sm cursor-pointer avatar placeholder">
+                        <div class="bg-primary text-primary-content rounded-full w-8 flex items-center justify-center">
+                            <span class="text-xs font-bold">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                        </div>
+                    </label>
                 @endauth
             </div>
 
