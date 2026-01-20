@@ -79,6 +79,9 @@
                 <x-mary-menu-item title="Moments" icon="o-sparkles" link="{{ route('moments.list') }}"
                     :active="Route::is('moments.*')" />
 
+                <x-mary-menu-item title="Packages" icon="o-cube" link="{{ route('admin.packages.index') }}"
+                    :active="Route::is('admin.packages.*')" />
+
                 <x-mary-menu-separator />
 
                 <x-mary-menu-sub title="Applicants" icon="o-user-group">

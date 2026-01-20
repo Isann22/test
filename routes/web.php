@@ -86,6 +86,12 @@ Route::prefix('admin/reservations')->name('admin.reservations.')->group(function
     Route::get('/{reservation}', App\Livewire\Admin\Reservations\ShowReservation::class)->name('show');
 });
 
+Route::prefix('admin/packages')->name('admin.packages.')->group(function () {
+    Route::get('/', App\Livewire\Admin\Packages\ListPackages::class)->name('index');
+    Route::get('/create', App\Livewire\Admin\Packages\CreatePackage::class)->name('create');
+    Route::get('/{package}/edit', App\Livewire\Admin\Packages\EditPackage::class)->name('edit');
+});
+
 
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [App\Http\Controllers\oauth\GoogleController::class, 'callback'])->name('auth.google.callback');
