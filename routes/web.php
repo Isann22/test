@@ -56,9 +56,42 @@ Route::get('/settings', App\Livewire\Setting\Profile::class)
     ->name('settings');
 
 // My Reservations
-Route::get('/my-reservations', App\Livewire\Reserved\Index::class)
-    ->middleware(['auth', 'verified'])
-    ->name('reserved.index');
+Route::prefix('my-reservations')->name('reserved.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', App\Livewire\Reserved\Index::class)->name('index');
+    Route::get('/{reservation}', App\Livewire\Reserved\Show::class)->name('show');
+});
+
+
+Route::get('/admin', App\Livewire\Admin\AdminDashboard::class)->name('admin.dashboard');
+
+Route::prefix('admin/cities')->group(function () {
+    Route::get('/', App\Livewire\Admin\Cities\ListCities::class)->name('cities.list');
+    Route::get('/create', App\Livewire\Admin\Cities\CreateCity::class)->name('cities.create');
+    Route::get('/{city:slug}/edit', App\Livewire\Admin\Cities\EditCity::class)->name('city.update');
+});
+
+Route::prefix('admin/moments')->group(function () {
+    Route::get('/', App\Livewire\Admin\moments\ListMoments::class)->name('moments.list');
+    Route::get('/create', App\Livewire\Admin\moments\CreateMoment::class)->name('moments.create');
+    Route::get('/{moment:slug}/edit', App\Livewire\Admin\moments\EditMoment::class)->name('moment.update');
+});
+
+Route::prefix('admin/photographer-applicants')->group(function () {
+    Route::get('/', App\Livewire\Admin\PhotographerApplicants\ListPhotographerApplicants::class)->name('photographer-applicants-list');
+    Route::get('/{photographer}', App\Livewire\Admin\PhotographerApplicants\ViewPhotographerApplicant::class)->name('photographers-applicant-view');
+});
+
+Route::prefix('admin/reservations')->name('admin.reservations.')->group(function () {
+    Route::get('/', App\Livewire\Admin\Reservations\ListReservations::class)->name('index');
+    Route::get('/{reservation}', App\Livewire\Admin\Reservations\ShowReservation::class)->name('show');
+});
+
+Route::prefix('admin/packages')->name('admin.packages.')->group(function () {
+    Route::get('/', App\Livewire\Admin\Packages\ListPackages::class)->name('index');
+    Route::get('/create', App\Livewire\Admin\Packages\CreatePackage::class)->name('create');
+    Route::get('/{package}/edit', App\Livewire\Admin\Packages\EditPackage::class)->name('edit');
+});
+
 
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [App\Http\Controllers\oauth\GoogleController::class, 'callback'])->name('auth.google.callback');

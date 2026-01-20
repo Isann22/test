@@ -17,8 +17,8 @@
                     icon="o-phone" />
 
                 <x-slot:actions>
-                    <x-mary-button label="Save Changes" type="submit" class="btn-primary" spinner="updateProfile"
-                        icon="o-check" />
+                    <x-mary-button class="btn-primary" wire:click="updateProfile" label="Save Changes" type="submit"
+                        spinner="updateProfile" icon="o-check" />
                 </x-slot:actions>
             </form>
         </x-mary-card>

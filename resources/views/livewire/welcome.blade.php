@@ -33,24 +33,37 @@
         </div>
 
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach ($moments as $moment)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
+            @forelse ($moments as $moment)
                 <div
-                    class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                    <figure class="relative h-56 overflow-hidden">
+                    class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 w-full max-w-sm group relative transition-all duration-300 hover:shadow-2xl">
+                    <a href="{{ route('moments.show', $moment->slug) }}" class="absolute inset-0 z-20"></a>
+
+                    <figure class="relative h-64">
                         <img src="{{ $moment->getFirstMediaUrl('albums') ?: 'https://placehold.co/400x300?text=' . urlencode($moment->name) }}"
                             alt="{{ $moment->name }}"
-                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
 
-                        <div
-                            class="absolute inset-0 bg-linear-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-5">
-                            <h3 class="text-xl font-bold text-white mb-1">{{ $moment->name }}</h3>
-                            <x-mary-button label="Explore" icon="o-arrow-right" class="btn btn-neutral btn-sm w-fit"
-                                link="{{ route('moments.show', $moment->slug) }}" />
-                        </div>
+                        <figcaption
+                            class="absolute bottom-0 left-0 w-full p-6 text-white bg-linear-to-t from-slate-900/90 to-transparent">
+                            <div class="flex items-center gap-1 mb-1">
+                                <x-mary-icon name="o-camera" class="w-4 h-4 text-warning" />
+                                <h3 class="text-lg font-medium leading-tight">{{ $moment->name }}</h3>
+                            </div>
+                            <p class="text-sm opacity-90 text-slate-300 line-clamp-1">
+                                {{ Str::limit($moment->details, 50) }}
+                            </p>
+                        </figcaption>
                     </figure>
                 </div>
-            @endforeach
+            @empty
+                <div class="col-span-full text-center py-12">
+                    <div class="text-gray-400 mb-2">
+                        <x-mary-icon name="o-face-frown" class="w-12 h-12 mx-auto" />
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-600">No moments found</h3>
+                </div>
+            @endforelse
         </div>
     </section>
 

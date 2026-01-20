@@ -6,7 +6,7 @@
             window.snap.pay(snapToken, {
                 onSuccess: function(result) {
                     console.log('Payment success:', result);
-                    window.location.href = '{{ route('reserved.index') }}';
+                    Livewire.dispatch('payment-success', { result: result });
                 },
                 onPending: function(result) {
                     console.log('Payment pending:', result);
@@ -14,7 +14,7 @@
                 },
                 onError: function(result) {
                     console.log('Payment error:', result);
-                    alert('Payment failed! Please try again.');
+                    Livewire.dispatch('payment-error', { result: result });
                 },
                 onClose: function() {
                     Livewire.dispatch('payment-closed');

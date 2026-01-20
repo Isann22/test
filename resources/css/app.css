@@ -5,8 +5,35 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+
+/* Required by all components */
+@import '../../vendor/filament/support/resources/css/index.css';
+
+/* Required by actions and tables */
+@import '../../vendor/filament/actions/resources/css/index.css';
+
+/* Required by actions, forms and tables */
+@import '../../vendor/filament/forms/resources/css/index.css';
+
+/* Required by actions and infolists */
+@import '../../vendor/filament/infolists/resources/css/index.css';
+
+/* Required by notifications */
+@import '../../vendor/filament/notifications/resources/css/index.css';
+
+/* Required by actions, infolists, forms, schemas and tables */
+@import '../../vendor/filament/schemas/resources/css/index.css';
+
+/* Required by tables */
+@import '../../vendor/filament/tables/resources/css/index.css';
+
+/* Required by widgets */
+@import '../../vendor/filament/widgets/resources/css/index.css';
+
+@variant dark (&:where(.dark, .dark *));
+
 @plugin "daisyui" {
-     themes: corporate;
+     themes: lofi;
 }
 
 @theme {
@@ -14,15 +41,6 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-@layer components {
-    .btn-primary {
-        @apply bg-blue-700 cursor-pointer hover:outline outline-blue-600 hover:bg-blue-600 transition-all duration-300 text-white rounded-md;
-    }
-
-    .btn-secondary {
-        @apply bg-gray-800 cursor-pointer hover:outline outline-blue-500/60 hover:bg-gray-900 transition-all duration-300 text-white rounded-md;
-    }
-}
 
 .spinner_V8m1 {
     transform-origin: center;

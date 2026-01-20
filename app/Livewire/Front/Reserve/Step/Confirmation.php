@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Front\Reserve\Step;
 
+use App\Enums\PaymentStatus;
+use App\Enums\ReservationStatus;
 use App\Http\Requests\StoreReservationRequest;
+use App\Models\Reservation;
 use App\Services\ReservationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +15,66 @@ use Spatie\LivewireWizard\Components\StepComponent;
 
 class Confirmation extends StepComponent
 {
+    public ?string $reservationId = null;
+
+    #[On('payment-success')]
+    public function handlePaymentSuccess(array $result): void
+    {
+        if (!$this->reservationId) {
+            Toaster::error('Reservation not found.');
+            return;
+        }
+
+        $reservation = Reservation::find($this->reservationId);
+
+        if (!$reservation) {
+            Toaster::error('Reservation not found.');
+            return;
+        }
+
+        $reservation->update([
+            'status' => ReservationStatus::Confirmed,
+            'confirmed_at' => now(),
+        ]);
+
+        $reservation->payment->update([
+            'payment_status' => PaymentStatus::Paid,
+            'paid_at' => now(),
+        ]);
+
+        Toaster::success('Payment successful! Your reservation is confirmed.');
+        $this->redirect(route('reserved.index'));
+    }
+
+    #[On('payment-pending')]
+    public function handlePaymentPending(array $result): void
+    {
+        Toaster::info('Payment is pending. Please complete your payment.');
+        $this->redirect(route('reserved.index'));
+    }
+
+    #[On('payment-error')]
+    public function handlePaymentError(array $result): void
+    {
+        if ($this->reservationId) {
+            $reservation = Reservation::find($this->reservationId);
+            if ($reservation && $reservation->payment) {
+                $reservation->payment->update([
+                    'payment_status' => PaymentStatus::Failed,
+                    'gateway_response' => $result,
+                ]);
+            }
+        }
+
+        Toaster::error('Payment failed. Please try again.');
+    }
+
+    #[On('payment-closed')]
+    public function handlePaymentClosed(): void
+    {
+        Toaster::info('Payment was not completed. You can continue payment from your reservations.');
+        $this->redirect(route('reserved.index'));
+    }
     /**
      * Handle when user closes the payment popup.
      */
@@ -57,9 +120,9 @@ class Confirmation extends StepComponent
                 Auth::id()
             );
 
+            $this->reservationId = $reservation->id;
             $snapToken = $reservation->payment->gateway_response['snap_token'];
             
-            // Dispatch browser event for Alpine.js to catch
             $this->dispatch('open-snap-popup', token: $snapToken);
         } catch (\Exception $e) {
             Toaster::error('Failed to create reservation. Please try again.' .$e->getMessage());
