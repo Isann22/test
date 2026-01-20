@@ -14,7 +14,7 @@ use Filament\Notifications\Notification;
 use Filament\Forms\Components\Select;
 
 #[Layout('components.layouts.dashboard')]
-class ViewPhotographerApplicant extends Component implements HasForms
+class ShowPhotographerApplicant extends Component implements HasForms
 {
     use InteractsWithForms;
 
@@ -68,6 +68,6 @@ class ViewPhotographerApplicant extends Component implements HasForms
 
     public function render(): View
     {
-        return view('livewire.admin.photographer-applicants.view-photographer-applicant');
+        return view('livewire.admin.photographer-applicants.show-photographer-applicant');
     }
 }
