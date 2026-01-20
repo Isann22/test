@@ -67,7 +67,7 @@
             {{-- Activates the menu item when a route matches the `link` property --}}
             <x-mary-menu activate-by-route>
                 <x-mary-menu-item title="Home" icon="o-home" link="/admin/cities" />
-                <x-mary-menu-item title="Messages" icon="o-envelope" link="###" />
+                <x-mary-menu-item title="Messages" icon="o-envelope" link="{{ route('moments.list') }}" />
                 <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
                     <x-mary-menu-item title="Wifi" icon="o-wifi" link="####" />
                     <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />

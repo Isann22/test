@@ -68,6 +68,11 @@ Route::get('/admin/cities/create', App\Livewire\Admin\Cities\CreateCity::class);
 Route::get('/admin/{city:slug}/edit', App\Livewire\Admin\Cities\EditCity::class)->name('city.update');
 
 
+Route::get('/admin/moments', App\Livewire\Admin\moments\ListMoments::class)->name('moments.list');
+Route::get('/admin/moments/create', App\Livewire\Admin\moments\CreateMoment::class);
+
+
+
 
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [App\Http\Controllers\oauth\GoogleController::class, 'callback'])->name('auth.google.callback');
