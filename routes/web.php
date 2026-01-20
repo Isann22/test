@@ -61,6 +61,9 @@ Route::prefix('my-reservations')->name('reserved.')->middleware(['auth', 'verifi
     Route::get('/{reservation}', App\Livewire\Reserved\Show::class)->name('show');
 });
 
+
+Route::get('/admin', App\Livewire\Admin\AdminDashboard::class);
+
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [App\Http\Controllers\oauth\GoogleController::class, 'callback'])->name('auth.google.callback');
 Route::get('login/facebook', [App\Http\Controllers\oauth\FacebookController::class, 'redirect'])->name('auth.facebook.redirect');
