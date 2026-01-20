@@ -9,6 +9,13 @@
 
     <title>{{ isset($title) ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
     @livewireStyles
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
+    @filamentStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -59,7 +66,7 @@
 
             {{-- Activates the menu item when a route matches the `link` property --}}
             <x-mary-menu activate-by-route>
-                <x-mary-menu-item title="Home" icon="o-home" link="###" />
+                <x-mary-menu-item title="Home" icon="o-home" link="/admin/cities" />
                 <x-mary-menu-item title="Messages" icon="o-envelope" link="###" />
                 <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
                     <x-mary-menu-item title="Wifi" icon="o-wifi" link="####" />
@@ -75,8 +82,8 @@
     </x-mary-main>
 
 
-
-    @livewireScriptConfig
+    @filamentScripts
+    @vite('resources/js/app.js')
 </body>
 
 </html>
