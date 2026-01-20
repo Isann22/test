@@ -3,7 +3,7 @@
         <x-slot:actions>
             <x-mary-button label="Edit" icon="o-pencil" link="/admin/photographers/{{ $record->id }}/edit"
                 class="btn-primary" />
-            <x-mary-button label="Kembali" icon="o-arrow-left" link="{{ route('photographers.list') }}" />
+            <x-mary-button label="Kembali" icon="o-arrow-left" link="{{ route('photographer-applicants-list') }}" />
         </x-slot:actions>
     </x-mary-header>
 

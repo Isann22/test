@@ -38,6 +38,11 @@ class ListPhotographerApplicants extends Component implements HasActions, HasSch
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
+            ])
+            ->actions([
+                Action::make('view')
+                    ->icon('heroicon-s-eye')
+                    ->url(fn (PhotographerApplicant $record) => route('photographers-applicant-view', $record)),
             ]);
     }
 
