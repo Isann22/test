@@ -60,17 +60,6 @@ class CreateCity extends Component implements HasForms
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->maxSize(5120)
                     ->helperText('Upload album images (max 5MB each)'),
-
-                SpatieMediaLibraryFileUpload::make('photospots')
-                    ->label('Photo Spot Images')
-                    ->collection('photospots')
-                    ->multiple()
-                    ->reorderable()
-                    ->image()
-                    ->imageEditor()
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->maxSize(5120)
-                    ->helperText('Upload photo spot images (max 5MB each)'),
             ])
             ->statePath('data')
             ->model($this->city);
@@ -85,7 +74,7 @@ class CreateCity extends Component implements HasForms
             'details' => $data['details'] ?? null,
             'price' => $data['price'],
         ]);
-        
+
         $this->city->save();
 
         // Save media via form
@@ -104,4 +93,3 @@ class CreateCity extends Component implements HasForms
         return view('livewire.admin.cities.create-city');
     }
 }
-

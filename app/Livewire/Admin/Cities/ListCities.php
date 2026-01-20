@@ -56,9 +56,6 @@ class ListCities extends Component implements HasActions, HasSchemas, HasTable
                 Action::make('create')
                     ->label('Add New')
                     ->url('/admin/cities/create'),
-                BulkAction::make('delete')
-                    ->label("delete")
-                    ->requiresConfirmation()
             ])
             ->headerActions([])
             ->recordActions([]);
