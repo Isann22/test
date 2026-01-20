@@ -46,6 +46,12 @@ class Login extends Component
         if (Auth::attempt($credentials, $this->remember)) {
             session()->regenerate();
 
+            $user = Auth::user();
+
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard')->success('Welcome Back, Admin ' . $user->name);
+            }
+
             return redirect(route('home'))->success('Logged in as ' . Auth::user()->name);
         }
 

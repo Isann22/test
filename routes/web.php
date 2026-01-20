@@ -62,7 +62,6 @@ Route::prefix('my-reservations')->name('reserved.')->middleware(['auth', 'verifi
 });
 
 
-Route::get('/admin', App\Livewire\Admin\AdminDashboard::class)->name('admin.dashboard');
 
 Route::prefix('admin/cities')->group(function () {
     Route::get('/', App\Livewire\Admin\Cities\ListCities::class)->name('cities.list');
