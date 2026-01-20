@@ -63,43 +63,32 @@ Route::prefix('my-reservations')->name('reserved.')->middleware(['auth', 'verifi
 
 
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+Route::prefix('admin/cities')->group(function () {
+    Route::get('/', App\Livewire\Admin\Cities\ListCities::class)->name('cities.list');
+    Route::get('/create', App\Livewire\Admin\Cities\CreateCity::class)->name('cities.create');
+    Route::get('/{city:slug}/edit', App\Livewire\Admin\Cities\EditCity::class)->name('city.update');
+});
 
-    // Dashboard
-    Route::get('/', App\Livewire\Admin\AdminDashboard::class)->name('admin.dashboard');
+Route::prefix('admin/moments')->group(function () {
+    Route::get('/', App\Livewire\Admin\moments\ListMoments::class)->name('moments.list');
+    Route::get('/create', App\Livewire\Admin\moments\CreateMoment::class)->name('moments.create');
+    Route::get('/{moment:slug}/edit', App\Livewire\Admin\moments\EditMoment::class)->name('moment.update');
+});
 
-    // Cities
-    Route::prefix('cities')->group(function () {
-        Route::get('/', App\Livewire\Admin\Cities\ListCities::class)->name('cities.list');
-        Route::get('/create', App\Livewire\Admin\Cities\CreateCity::class)->name('cities.create');
-        Route::get('/{city:slug}/edit', App\Livewire\Admin\Cities\EditCity::class)->name('city.update');
-    });
+Route::prefix('admin/photographer-applicants')->group(function () {
+    Route::get('/', App\Livewire\Admin\PhotographerApplicants\ListPhotographerApplicants::class)->name('photographer-applicants-list');
+    Route::get('/{photographer}', App\Livewire\Admin\PhotographerApplicants\ShowPhotographerApplicant::class)->name('photographers-applicant-view');
+});
 
-    // Moments
-    Route::prefix('moments')->group(function () {
-        Route::get('/', App\Livewire\Admin\moments\ListMoments::class)->name('moments.list');
-        Route::get('/create', App\Livewire\Admin\moments\CreateMoment::class)->name('moments.create');
-        Route::get('/{moment:slug}/edit', App\Livewire\Admin\moments\EditMoment::class)->name('moment.update');
-    });
+Route::prefix('admin/reservations')->name('admin.reservations.')->group(function () {
+    Route::get('/', App\Livewire\Admin\Reservations\ListReservations::class)->name('index');
+    Route::get('/{reservation}', App\Livewire\Admin\Reservations\ShowReservation::class)->name('show');
+});
 
-    // Photographer Applicants
-    Route::prefix('photographer-applicants')->group(function () {
-        Route::get('/', App\Livewire\Admin\PhotographerApplicants\ListPhotographerApplicants::class)->name('photographer-applicants-list');
-        Route::get('/{photographer}', App\Livewire\Admin\PhotographerApplicants\ViewPhotographerApplicant::class)->name('photographers-applicant-view');
-    });
-
-    // Reservations
-    Route::prefix('reservations')->name('admin.reservations.')->group(function () {
-        Route::get('/', App\Livewire\Admin\Reservations\ListReservations::class)->name('index');
-        Route::get('/{reservation}', App\Livewire\Admin\Reservations\ShowReservation::class)->name('show');
-    });
-
-    // Packages
-    Route::prefix('packages')->name('admin.packages.')->group(function () {
-        Route::get('/', App\Livewire\Admin\Packages\ListPackages::class)->name('index');
-        Route::get('/create', App\Livewire\Admin\Packages\CreatePackage::class)->name('create');
-        Route::get('/{package}/edit', App\Livewire\Admin\Packages\EditPackage::class)->name('edit');
-    });
+Route::prefix('admin/packages')->name('admin.packages.')->group(function () {
+    Route::get('/', App\Livewire\Admin\Packages\ListPackages::class)->name('index');
+    Route::get('/create', App\Livewire\Admin\Packages\CreatePackage::class)->name('create');
+    Route::get('/{package}/edit', App\Livewire\Admin\Packages\EditPackage::class)->name('edit');
 });
 
 

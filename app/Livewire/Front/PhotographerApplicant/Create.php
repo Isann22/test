@@ -36,7 +36,7 @@ class Create extends Component
             'fullname' => $this->form->fullname,
             'email' => $this->form->email,
             'phonenumber' => $this->form->phonenumber,
-            'cameras' => $this->form->cameras,
+            'cameras' => array_map('trim', explode(',', $this->form->cameras)),
             'instagram_link' => $this->form->instagram_link,
             'portofolio_link' => $this->form->portofolio_link,
             'moments' => $this->form->selectedMoments,
