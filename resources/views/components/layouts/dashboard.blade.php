@@ -54,10 +54,15 @@
             {{-- User --}}
             @if ($user = auth()->user())
                 <x-mary-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
-                    class="pt-2">
+                    class="pt-2 ps-10">
                     <x-slot:actions>
-                        <x-mary-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff"
-                            no-wire-navigate link="/logout" />
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            @method('DELETE')
+                            <x-mary-button type="submit" icon="o-power" tooltip-left="Logout"
+                                class="btn-circle btn-ghost btn-xs" />
+
+                        </form>
                     </x-slot:actions>
                 </x-mary-list-item>
 
@@ -79,8 +84,8 @@
                 <x-mary-menu-item title="Moments" icon="o-sparkles" link="{{ route('moments.list') }}"
                     :active="Route::is('moments.*')" />
 
-                <x-mary-menu-item title="Packages" icon="o-cube" link="{{ route('admin.packages.index') }}"
-                    :active="Route::is('admin.packages.*')" />
+                <x-mary-menu-item title="Packages" icon="o-cube" wire-navigate
+                    link="{{ route('admin.packages.index') }}" :active="Route::is('admin.packages.*')" />
 
                 <x-mary-menu-separator />
 

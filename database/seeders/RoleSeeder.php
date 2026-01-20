@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -13,8 +14,30 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         // Create roles
-        Role::findOrCreate('admin', 'web');
-        Role::findOrCreate('photographer', 'web');
-        Role::findOrCreate('user', 'web');
+
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $photoRole = Role::firstOrCreate(['name' => 'photographer']);
+        $userRole  = Role::firstOrCreate(['name' => 'user']);
+
+        $admin = User::create([
+            'name'     => 'User',
+            'email'    => 'admin@example.com',
+            'password' => bcrypt('password'),
+        ]);
+        $admin->assignRole($adminRole);
+
+        $photographer = User::create([
+            'name'     => 'Photographer',
+            'email'    => 'photographer@example.com',
+            'password' => bcrypt('password'),
+        ]);
+        $photographer->assignRole($photoRole);
+
+        $regularUser = User::create([
+            'name'     => 'User',
+            'email'    => 'user@example.com',
+            'password' => bcrypt('password'),
+        ]);
+        $regularUser->assignRole($userRole);
     }
 }
