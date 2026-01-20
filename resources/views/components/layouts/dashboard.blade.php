@@ -23,7 +23,11 @@
             </label>
 
             {{-- Brand --}}
-            <div>App</div>
+            <div>
+                <a href="/" wire:navigate class="text-sm lg:text-xl font-bold btn btn-ghost normal-case px-2">
+                    {{ config('app.name') }}
+                </a>
+            </div>
         </x-slot:brand>
 
         {{-- Right side actions --}}
