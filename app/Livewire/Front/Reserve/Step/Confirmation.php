@@ -17,67 +17,9 @@ class Confirmation extends StepComponent
 {
     public ?string $reservationId = null;
 
-    #[On('payment-success')]
-    public function handlePaymentSuccess(array $result): void
-    {
-        if (!$this->reservationId) {
-            Toaster::error('Reservation not found.');
-            return;
-        }
 
-        $reservation = Reservation::find($this->reservationId);
+    
 
-        if (!$reservation) {
-            Toaster::error('Reservation not found.');
-            return;
-        }
-
-        $reservation->update([
-            'status' => ReservationStatus::Confirmed,
-            'confirmed_at' => now(),
-        ]);
-
-        $reservation->payment->update([
-            'payment_status' => PaymentStatus::Paid,
-            'paid_at' => now(),
-        ]);
-
-        Toaster::success('Payment successful! Your reservation is confirmed.');
-        $this->redirect(route('reserved.index'));
-    }
-
-    #[On('payment-pending')]
-    public function handlePaymentPending(array $result): void
-    {
-        Toaster::info('Payment is pending. Please complete your payment.');
-        $this->redirect(route('reserved.index'));
-    }
-
-    #[On('payment-error')]
-    public function handlePaymentError(array $result): void
-    {
-        if ($this->reservationId) {
-            $reservation = Reservation::find($this->reservationId);
-            if ($reservation && $reservation->payment) {
-                $reservation->payment->update([
-                    'payment_status' => PaymentStatus::Failed,
-                    'gateway_response' => $result,
-                ]);
-            }
-        }
-
-        Toaster::error('Payment failed. Please try again.');
-    }
-
-    #[On('payment-closed')]
-    public function handlePaymentClosed(): void
-    {
-        Toaster::info('Payment was not completed. You can continue payment from your reservations.');
-        $this->redirect(route('reserved.index'));
-    }
-    /**
-     * Confirm and save the booking to database.
-     */
     public function confirmBooking(ReservationService $reservationService): void
     {
         // 1. Collect all data from wizard state
@@ -143,6 +85,66 @@ class Confirmation extends StepComponent
             'locationDetails' => $detailsState['locationDetails'] ?? null,
             'additionalInfo' => $detailsState['additionalInfo'] ?? null,
         ];
+    }
+
+
+        #[On('payment-success')]
+    public function handlePaymentSuccess(array $result): void
+    {
+        if (!$this->reservationId) {
+            Toaster::error('Reservation not found.');
+            return;
+        }
+
+        $reservation = Reservation::find($this->reservationId);
+
+        if (!$reservation) {
+            Toaster::error('Reservation not found.');
+            return;
+        }
+
+        $reservation->update([
+            'status' => ReservationStatus::Confirmed,
+            'confirmed_at' => now(),
+        ]);
+
+        $reservation->payment->update([
+            'payment_status' => PaymentStatus::Settlement,
+            'paid_at' => now(),
+        ]);
+
+        Toaster::success('Payment successful! Your reservation is confirmed.');
+        $this->redirect(route('reserved.index'));
+    }
+
+    #[On('payment-pending')]
+    public function handlePaymentPending(array $result): void
+    {
+        Toaster::info('Payment is pending. Please complete your payment.');
+        $this->redirect(route('reserved.index'));
+    }
+
+    #[On('payment-error')]
+    public function handlePaymentError(array $result): void
+    {
+        if ($this->reservationId) {
+            $reservation = Reservation::find($this->reservationId);
+            if ($reservation && $reservation->payment) {
+                $reservation->payment->update([
+                    'payment_status' => PaymentStatus::Failure,
+                    'gateway_response' => $result,
+                ]);
+            }
+        }
+
+        Toaster::error('Payment failed. Please try again.');
+    }
+
+    #[On('payment-closed')]
+    public function handlePaymentClosed(): void
+    {
+        Toaster::info('Payment was not completed. You can continue payment from your reservations.');
+        $this->redirect(route('reserved.index'));
     }
 
     public function stepInfo(): array

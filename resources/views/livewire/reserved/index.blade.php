@@ -119,6 +119,10 @@
                                             <button class="btn btn-sm btn-ghost text-error">
                                                 Cancel
                                             </button>
+
+                                            <button @click="Toaster.success('Form submitted!')">
+                                                Submit
+                                            </button>
                                         </div>
                                     @elseif (in_array($reservation->status->value, ['confirmed', 'in_progress', 'completed']))
                                         <a href="{{ route('reserved.show', $reservation) }}"

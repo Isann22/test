@@ -16,7 +16,7 @@
     </style>
 
     @filamentStyles
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/filament.js'])
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-200">

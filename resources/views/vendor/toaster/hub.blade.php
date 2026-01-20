@@ -24,43 +24,53 @@
                 'text-center' => $position->is('center'),
             ])
             >
-            <div class="inline-flex gap-2 group border-l-3 select-none bg-gray-900 pl-3 pr-6 py-3 rounded-sm shadow-lg text-sm w-full {{ $alignment->is('bottom') ? 'mt-3' : 'mb-3' }}"
+            <div class="inline-flex items-center gap-3 group select-none backdrop-blur-md pl-4 pr-8 py-4 rounded-xl shadow-2xl text-sm font-medium w-full ring-1 ring-inset {{ $alignment->is('bottom') ? 'mt-3' : 'mb-3' }}"
                 :class="toast.select({
-                    error: 'border-red-500',
-                    info: 'border-blue-500',
-                    success: 'border-green-600',
-                    warning: 'border-orange-500'
+                    error: 'bg-red-50 text-red-800 ring-red-200',
+                    info: 'bg-blue-50 text-blue-800 ring-blue-200',
+                    success: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
+                    warning: 'bg-amber-50 text-amber-800 ring-amber-200'
                 })">
-                <svg x-show="toast.type === 'success'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide shrink-0 lucide-circle-check-big mt-0.5 size-4 text-green-600">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <path d="m9 11 3 3L22 4"></path>
-                </svg>
-                <svg x-show="toast.type === 'info'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="lucide lucide-info size-4 text-blue-500 shrink-0 mt-0.5">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 16v-4"></path>
-                    <path d="M12 8h.01"></path>
-                </svg>
-                <svg x-show="toast.type==='warning'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-triangle-alert h-4 w-4 text-orange-500 shrink-0 mt-0.5">
-                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
-                    <path d="M12 9v4"></path>
-                    <path d="M12 17h.01"></path>
-                </svg>
-                <svg x-show="toast.type === 'error'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="lucide lucide-info size-4 text-red-500 shrink-0 mt-0.5">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 16v-4"></path>
-                    <path d="M12 8h.01"></path>
-                </svg>
-                <i class="not-italic" x-text="toast.message"></i>
+                {{-- Success Icon --}}
+                <div x-show="toast.type === 'success'" class="flex-shrink-0 p-1.5 bg-emerald-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" class="text-emerald-600">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <path d="m9 11 3 3L22 4"></path>
+                    </svg>
+                </div>
+                {{-- Info Icon --}}
+                <div x-show="toast.type === 'info'" class="flex-shrink-0 p-1.5 bg-blue-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" class="text-blue-600">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                    </svg>
+                </div>
+                {{-- Warning Icon --}}
+                <div x-show="toast.type==='warning'" class="flex-shrink-0 p-1.5 bg-amber-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" class="text-amber-600">
+                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path>
+                    </svg>
+                </div>
+                {{-- Error Icon --}}
+                <div x-show="toast.type === 'error'" class="flex-shrink-0 p-1.5 bg-red-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" class="text-red-600">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m15 9-6 6"></path>
+                        <path d="m9 9 6 6"></path>
+                    </svg>
+                </div>
+                <span class="font-semibold" x-text="toast.message"></span>
                 @if ($closeable)
                     <button x-on:click="toast.dispose()" aria-label="@lang('close')"
                         class="absolute hidden group-hover:block text-gray-400 cursor-pointer opacity-80 hover:opacity-100 right-0 p-2 focus:outline-none focus:outline-hidden rtl:right-auto rtl:left-0 {{ $alignment->is('bottom') ? 'top-3' : 'top-0' }}">

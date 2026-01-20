@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="corporate" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html data-theme="lofi" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -14,21 +14,32 @@
 
 </head>
 
-<body class="min-h-svh antialiased font-inter bg-white text-black flex flex-col">
-    <x-navbar />
-    <main class="flex-1 relative   text-black flex flex-col justify-center items-center my-14">
+<body class="min-h-svh antialiased font-inter flex flex-col">
+    <main>
+        <div class="drawer">
+            <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content flex flex-col min-h-screen">
 
+                <x-navbar />
 
-        <div class="flex relative z-10 p-0 xl:p-2 rounded-2xl shadow-md bg-white w-96 my-4 lg:my-0 2xl:w-8/12">
-            {{ $slot }}
+                <div class="flex-1 flex items-center justify-center py-8">
+                    <main class="w-full max-w-md px-4">
+                        {{ $slot }}
+                    </main>
+                </div>
+            </div>
+
+            <x-drawer />
         </div>
     </main>
-
     <x-footer />
+
+    <x-user-drawer />
+
     <x-toaster-hub />
-    @livewireScriptConfig
 
     @stack('scripts')
+    @livewireScriptConfig
 </body>
 
 </html>
