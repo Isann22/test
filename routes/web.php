@@ -76,8 +76,9 @@ Route::prefix('admin/moments')->group(function () {
     Route::get('/{moment:slug}/edit', App\Livewire\Admin\moments\EditMoment::class)->name('moment.update');
 });
 
-
-
+Route::prefix('admin/photographer-applicants')->group(function () {
+    Route::get('/', App\Livewire\Admin\PhotographerApplicants\ListPhotographerApplicants::class)->name('photographer-applicants.list');
+});
 
 
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
