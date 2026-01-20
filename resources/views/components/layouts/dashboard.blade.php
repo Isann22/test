@@ -64,14 +64,17 @@
                 <x-mary-menu-separator />
             @endif
 
-            {{-- Activates the menu item when a route matches the `link` property --}}
             <x-mary-menu activate-by-route>
-                <x-mary-menu-item title="Home" icon="o-home" link="/admin/cities" />
-                <x-mary-menu-item title="Messages" icon="o-envelope" link="{{ route('moments.list') }}" />
-                <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
-                    <x-mary-menu-item title="Wifi" icon="o-wifi" link="####" />
-                    <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />
-                </x-mary-menu-sub>
+
+                <x-mary-menu-item title="Dashboard" icon="o-home" link="{{ route('admin.dashboard') }}"
+                    :active="Route::is('admin.dashboard')" />
+
+                <x-mary-menu-separator />
+
+                <x-mary-menu-item title="Cities" icon="o-map-pin" link="{{ route('cities.list') }}" :active="Route::is('cities.*')" />
+
+                <x-mary-menu-item title="Moments" icon="o-camera" link="{{ route('moments.list') }}"
+                    :active="Route::is('moments.*')" />
             </x-mary-menu>
         </x-slot:sidebar>
 

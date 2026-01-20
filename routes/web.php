@@ -61,15 +61,21 @@ Route::prefix('my-reservations')->name('reserved.')->middleware(['auth', 'verifi
     Route::get('/{reservation}', App\Livewire\Reserved\Show::class)->name('show');
 });
 
-Route::get('/admin', App\Livewire\Admin\AdminDashboard::class);
 
-Route::get('/admin/cities', App\Livewire\Admin\Cities\ListCities::class)->name('cities.list');
-Route::get('/admin/cities/create', App\Livewire\Admin\Cities\CreateCity::class);
-Route::get('/admin/{city:slug}/edit', App\Livewire\Admin\Cities\EditCity::class)->name('city.update');
+Route::get('/admin', App\Livewire\Admin\AdminDashboard::class)->name('admin.dashboard');
 
+Route::prefix('admin/cities')->group(function () {
+    Route::get('/', App\Livewire\Admin\Cities\ListCities::class)->name('cities.list');
+    Route::get('/create', App\Livewire\Admin\Cities\CreateCity::class)->name('cities.create');
+    Route::get('/{city:slug}/edit', App\Livewire\Admin\Cities\EditCity::class)->name('city.update');
+});
 
-Route::get('/admin/moments', App\Livewire\Admin\moments\ListMoments::class)->name('moments.list');
-Route::get('/admin/moments/create', App\Livewire\Admin\moments\CreateMoment::class);
+Route::prefix('admin/moments')->group(function () {
+    Route::get('/', App\Livewire\Admin\moments\ListMoments::class)->name('moments.list');
+    Route::get('/create', App\Livewire\Admin\moments\CreateMoment::class)->name('moments.create');
+    Route::get('/{moment:slug}/edit', App\Livewire\Admin\moments\EditMoment::class)->name('moment.update');
+});
+
 
 
 

@@ -7,10 +7,12 @@ use Livewire\Component;
 use Filament\Tables\Table;
 use Filament\Actions\Action;
 use Livewire\Attributes\Layout;
+use Filament\Actions\DeleteAction;
 use Illuminate\Contracts\View\View;
 use Filament\Actions\BulkActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Schemas\Contracts\HasSchemas;
@@ -59,7 +61,15 @@ class ListMoments extends Component implements HasActions, HasSchemas, HasTable
                 //
             ])
             ->recordActions([
-                //
+                DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Moment deleted')
+                            ->body('The moment has been deleted successfully.'),
+                    ),
+                Action::make('edit')
+                    ->url(fn(Moment $record): string => route('moment.update', $record->slug))
             ]);
     }
 
