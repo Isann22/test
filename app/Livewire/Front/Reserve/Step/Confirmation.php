@@ -76,6 +76,15 @@ class Confirmation extends StepComponent
         $this->redirect(route('reserved.index'));
     }
     /**
+     * Handle when user closes the payment popup.
+     */
+    #[On('payment-closed')]
+    public function handlePaymentClosed(): void
+    {
+        Toaster::info('Payment was not completed. You can continue payment from your reservations.');
+        $this->redirect(route('reserved.index'));
+    }
+    /**
      * Confirm and save the booking to database.
      */
     public function confirmBooking(ReservationService $reservationService): void
