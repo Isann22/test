@@ -4,15 +4,17 @@ namespace App\Livewire\Admin\PhotographerApplicants;
 
 use Livewire\Component;
 use Filament\Tables\Table;
+use Filament\Actions\Action;
 use Livewire\Attributes\Layout;
+use App\Models\PhotographerApplicant;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use App\Models\PhotographerApplicant;
 use Filament\Actions\Contracts\HasActions;
+use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Infolists\Concerns\InteractsWithInfolists;
 
 
 
@@ -36,9 +38,6 @@ class ListPhotographerApplicants extends Component implements HasActions, HasSch
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
-            ])
-            ->actions([
-
             ]);
     }
 

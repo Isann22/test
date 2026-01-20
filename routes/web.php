@@ -78,6 +78,7 @@ Route::prefix('admin/moments')->group(function () {
 
 Route::prefix('admin/photographer-applicants')->group(function () {
     Route::get('/', App\Livewire\Admin\PhotographerApplicants\ListPhotographerApplicants::class)->name('photographer-applicants.list');
+    Route::get('/{photographer}', App\Livewire\Admin\PhotographerApplicants\ViewPhotographerApplicant::class)->name('photographers-applicant-view');
 });
 
 
