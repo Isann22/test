@@ -47,4 +47,19 @@ class City extends Model implements HasMedia
             ->useFallbackUrl('/images/default-spot.jpg')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
+
+    public function registerMediaConversions(\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
+    {
+        $this->addMediaConversion('webp')
+            ->format('webp')
+            ->quality(80)
+            ->performOnCollections('albums', 'photospots');
+
+        $this->addMediaConversion('thumb')
+            ->format('webp')
+            ->width(400)
+            ->height(300)
+            ->quality(75)
+            ->performOnCollections('albums', 'photospots');
+    }
 }

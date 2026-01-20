@@ -64,6 +64,7 @@ Route::prefix('my-reservations')->name('reserved.')->middleware(['auth', 'verifi
 Route::get('/admin', App\Livewire\Admin\AdminDashboard::class);
 
 Route::get('/admin/cities', App\Livewire\Admin\Cities\ListCities::class);
+Route::get('/admin/cities/create', App\Livewire\Admin\Cities\CreateCity::class);
 
 
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');

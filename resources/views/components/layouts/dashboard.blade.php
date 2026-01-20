@@ -80,6 +80,7 @@
             {{ $slot }}
         </x-slot:content>
     </x-mary-main>
+    @livewire('notifications')
 
 
     @filamentScripts
