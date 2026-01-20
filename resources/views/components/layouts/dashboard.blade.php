@@ -19,9 +19,9 @@
     @vite(['resources/css/app.css', 'resources/js/filament.js'])
 </head>
 
-<body class="min-h-screen font-sans antialiased bg-base-200">
+<body class="min-h-screen font-sans antialiased">
 
-    <x-mary-nav sticky full-width>
+    <x-mary-nav class="bg-base-200" sticky full-width>
 
         <x-slot:brand>
             {{-- Drawer toggle for "main-drawer" --}}
