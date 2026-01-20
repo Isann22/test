@@ -81,6 +81,11 @@ Route::prefix('admin/photographer-applicants')->group(function () {
     Route::get('/{photographer}', App\Livewire\Admin\PhotographerApplicants\ViewPhotographerApplicant::class)->name('photographers-applicant-view');
 });
 
+Route::prefix('admin/reservations')->name('admin.reservations.')->group(function () {
+    Route::get('/', App\Livewire\Admin\Reservations\ListReservations::class)->name('index');
+    Route::get('/{reservation}', App\Livewire\Admin\Reservations\ShowReservation::class)->name('show');
+});
+
 
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [App\Http\Controllers\oauth\GoogleController::class, 'callback'])->name('auth.google.callback');
