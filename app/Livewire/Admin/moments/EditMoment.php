@@ -6,58 +6,74 @@ use App\Models\Moment;
 use Livewire\Component;
 use Filament\Schemas\Schema;
 use Livewire\Attributes\Layout;
-use Filament\Actions\EditAction;
 use Illuminate\Contracts\View\View;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Notifications\Notification;
-use Filament\Actions\Contracts\HasActions;
-use Filament\Schemas\Contracts\HasSchemas;
-use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Concerns\InteractsWithForms;
 
 #[Layout('components.layouts.dashboard')]
-class EditMoment extends Component implements HasActions, HasSchemas
+class EditMoment extends Component implements HasForms
 {
-    use InteractsWithActions;
-    use InteractsWithSchemas;
+    use InteractsWithForms;
 
     public Moment $record;
-
     public ?array $data = [];
 
     public function mount(Moment $moment): void
     {
         $this->record = $moment;
 
-        $this->form->fill($this->record->attributesToArray());
+        $this->form->fill([
+            'name' => $moment->name,
+            'details' => $moment->details,
+        ]);
     }
 
-    public function form(Schema $schema): Schema
+    public function form(Schema $form): Schema
     {
-        return $schema
-            ->components([
+        return $form
+            ->schema([
                 TextInput::make('name')
-                    ->required(),
+                    ->label('Moment Name')
+                    ->required()
+                    ->maxLength(255),
                 Textarea::make('details')
-                    ->columnSpanFull(),
-                EditAction::make()
-                    ->successRedirectUrl(route('moments.list'))
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title('Moment updated')
-                            ->body("Moment {$this->record->name} has been updated successfully!"),
-                    )
-                    ->using(function (Moment $record, array $data): Moment {
-                        $data = $this->form->getState();
-                        $record->update($data);
-                        return $record;
-                    })
+                    ->label('Details')
+                    ->rows(4),
+                SpatieMediaLibraryFileUpload::make('albums')
+                    ->label('Images')
+                    ->collection('albums')
+                    ->multiple()
+                    ->reorderable()
+                    ->image()
+                    ->imageEditor()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(5120),
             ])
-
             ->statePath('data')
             ->model($this->record);
+    }
+
+    public function save(): void
+    {
+        $data = $this->form->getState();
+
+        $this->record->update([
+            'name' => $data['name'],
+            'details' => $data['details'],
+        ]);
+
+        $this->form->saveRelationships();
+
+        Notification::make()
+            ->title('Moment updated successfully!')
+            ->success()
+            ->send();
+
+        $this->redirect(route('moments.list'));
     }
 
     public function render(): View
