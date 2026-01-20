@@ -109,7 +109,7 @@ class Confirmation extends StepComponent
         ]);
 
         $reservation->payment->update([
-            'payment_status' => PaymentStatus::Paid,
+            'payment_status' => PaymentStatus::Settlement,
             'paid_at' => now(),
         ]);
 
@@ -131,7 +131,7 @@ class Confirmation extends StepComponent
             $reservation = Reservation::find($this->reservationId);
             if ($reservation && $reservation->payment) {
                 $reservation->payment->update([
-                    'payment_status' => PaymentStatus::Failed,
+                    'payment_status' => PaymentStatus::Failure,
                     'gateway_response' => $result,
                 ]);
             }

@@ -53,7 +53,7 @@ class Index extends Component
         ]);
 
         $reservation->payment->update([
-            'payment_status' => PaymentStatus::Paid,
+            'payment_status' => PaymentStatus::Settlement,
             'paid_at' => now(),
         ]);
 
@@ -75,7 +75,7 @@ class Index extends Component
 
         if ($reservation && $reservation->payment) {
             $reservation->payment->update([
-                'payment_status' => PaymentStatus::Failed,
+                'payment_status' => PaymentStatus::Failure,
                 'gateway_response' => $result,
             ]);
         }
