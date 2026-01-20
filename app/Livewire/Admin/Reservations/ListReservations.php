@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Reservations;
 
 use App\Models\Reservation;
 use App\Enums\ReservationStatus;
+use App\Enums\PaymentStatus;
 use Livewire\Component;
 use Filament\Tables\Table;
 use Filament\Actions\Action;
@@ -30,7 +31,7 @@ class ListReservations extends Component implements HasActions, HasSchemas, HasT
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn(): Builder => Reservation::query()->with(['user', 'detail.city', 'detail.moment', 'detail.package']))
+            ->query(fn(): Builder => Reservation::query()->with(['user', 'detail.city', 'detail.moment', 'detail.package', 'payment']))
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')
@@ -41,6 +42,7 @@ class ListReservations extends Component implements HasActions, HasSchemas, HasT
                     ->searchable()
                     ->sortable()
                     ->copyable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->copyMessage('Reservation code copied'),
                 TextColumn::make('user.name')
                     ->label('Customer')
@@ -70,6 +72,16 @@ class ListReservations extends Component implements HasActions, HasSchemas, HasT
                         ReservationStatus::Cancelled => 'danger',
                     })
                     ->formatStateUsing(fn(ReservationStatus $state): string => $state->label()),
+                TextColumn::make('payment.payment_status')
+                    ->label('Payment')
+                    ->badge()
+                    ->color(fn(?PaymentStatus $state): string => match ($state) {
+                        PaymentStatus::Paid => 'success',
+                        PaymentStatus::Pending => 'warning',
+                        PaymentStatus::Failed, PaymentStatus::Expired => 'danger',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn(?PaymentStatus $state): string => $state?->label() ?? '-'),
                 TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime('d M Y H:i')
