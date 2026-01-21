@@ -9,56 +9,56 @@ use App\Livewire\Auth\ForgotPassword;
 use Illuminate\Support\Facades\Route;
 
 
+// Public / Home
 Route::get('/', Welcome::class)->name('home');
 
-Route::get('/reserve/{city:slug}/{moment:slug}', App\Livewire\Front\Reserve\ReserveWizardComponent::class)
-    ->middleware(['auth', 'verified'])
-    ->name('reserve');
-
-// Photographer
+// Public Features
 Route::prefix('photographer')->name('photographer.')->group(function () {
     Route::view('/', 'pages.photographer')->name('index');
     Route::get('/photographer-join', App\Livewire\Front\PhotographerApplicant\Create::class)->name('create');
 });
 
-
-// Destinations (Cities)
 Route::prefix('destinations')->name('destinations.')->group(function () {
     Route::get('/', App\Livewire\Front\City\Index::class)->name('index');
     Route::get('/{city:slug}', App\Livewire\Front\City\Show::class)->name('show');
 });
 
-// Moments
 Route::prefix('moments')->name('moments.')->group(function () {
     Route::get('/', App\Livewire\Front\Moment\Index::class)->name('index');
     Route::get('/{moment:slug}', App\Livewire\Front\Moment\Show::class)->name('show');
 });
 
+// Authenticate
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
+    Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
+    Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 });
 
-Route::delete('/logout', [Login::class, 'logout'])->middleware('auth')->name('logout');
+Route::middleware('auth')->group(function () {
+    Route::delete('/logout', [Login::class, 'logout'])->name('logout');
 
-Route::get('/email/verify', Verify::class)->middleware('auth')->name('verification.notice');
+    Route::get('/email/verify', Verify::class)->name('verification.notice');
+    Route::post('/email/verification-notification', [Verify::class, 'sendVerifyMail'])
+        ->middleware('throttle:6,1')->name('verification.send');
+});
 
-Route::post('/email/verification-notification', [Verify::class, 'sendVerifyMail'])
-    ->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+// User Route (Requires Auth & Verified)
+Route::middleware(['auth', 'verified'])->group(function () {
 
-Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
-Route::get('/reset-password/{token}', ResetPassword::class)->middleware('guest')->name('password.reset');
+    // Reserve Wizard
+    Route::get('/reserve/{city:slug}/{moment:slug}', App\Livewire\Front\Reserve\ReserveWizardComponent::class)
+        ->name('reserve');
 
+    // Settings
+    Route::get('/settings', App\Livewire\Setting\Profile::class)->name('settings');
 
-// User Settings
-Route::get('/settings', App\Livewire\Setting\Profile::class)
-    ->middleware(['auth', 'verified'])
-    ->name('settings');
-
-// My Reservations
-Route::prefix('my-reservations')->name('reserved.')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', App\Livewire\Reserved\Index::class)->name('index');
-    Route::get('/{reservation}', App\Livewire\Reserved\Show::class)->name('show');
+    // My Reservations
+    Route::prefix('my-reservations')->name('reserved.')->group(function () {
+        Route::get('/', App\Livewire\Reserved\Index::class)->name('index');
+        Route::get('/{reservation}', App\Livewire\Reserved\Show::class)->name('show');
+    });
 });
 
 // Photographer Dashboard
@@ -72,8 +72,7 @@ Route::middleware(['auth', 'role:photographer'])->prefix('photographer-dashboard
     });
 });
 
-
-
+// Admin Dashboard
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     // Dashboard
