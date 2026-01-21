@@ -101,13 +101,13 @@
                 @endrole
 
                 @role('photographer')
-                    <x-mary-menu-item title="Dashboard" icon="o-home"
-                        link="{{ route('photographer-dashboard.reservations.index') }}" :active="Route::is('photographer-dashboard.reservations.index')" />
+                    <x-mary-menu-item title="Dashboard" icon="o-home" link="{{ route('photographer.dashboard') }}"
+                        :active="Route::is('photographer.dashboard')" />
 
                     <x-mary-menu-separator />
 
-                    <x-mary-menu-item title="Reservations" icon="o-calendar-days"
-                        link="{{ route('photographer-dashboard.reservations.index') }}" :active="Route::is('photographer-dashboard.reservations.index.*')" />
+                    <x-mary-menu-item title="Reservations" icon="o-calendar-days" link="{{ route('reservations.list') }}"
+                        :active="Route::is('reservations.list.*')" />
                 @endrole
             </x-mary-menu>
         </x-slot:sidebar>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Photographer;
+namespace App\Livewire\Photographer\Reservations;
 
 use App\Models\ReservationDetail;
 use App\Enums\ReservationStatus;
@@ -80,7 +80,6 @@ class ListReservations extends Component implements HasActions, HasSchemas, HasT
                 SelectFilter::make('reservation.status')
                     ->label('Status')
                     ->options([
-                        'confirmed' => 'Confirmed',
                         'in_progress' => 'In Progress',
                         'completed' => 'Completed',
                     ])
@@ -97,12 +96,12 @@ class ListReservations extends Component implements HasActions, HasSchemas, HasT
             ->recordActions([
                 Action::make('view')
                     ->icon('heroicon-o-eye')
-                    ->url(fn(ReservationDetail $record): string => route('photographer.reservations.show', $record)),
+                    ->url(fn(ReservationDetail $record): string => route('reservations.show', $record)),
             ]);
     }
 
     public function render(): View
     {
-        return view('livewire.photographer.list-reservations');
+        return view('livewire.photographer.reservations.list-reservations');
     }
 }

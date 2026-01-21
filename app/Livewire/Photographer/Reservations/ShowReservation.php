@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Photographer;
+namespace App\Livewire\Photographer\Reservations;
 
 use App\Models\ReservationDetail;
 use App\Models\Reservation;
@@ -18,7 +18,7 @@ class ShowReservation extends Component
     use Toast;
 
     public ReservationDetail $reservationDetail;
-    
+
     #[Validate('required|url|max:500')]
     public string $drive_link = '';
 
@@ -64,6 +64,6 @@ class ShowReservation extends Component
 
     public function render(): View
     {
-        return view('livewire.photographer.show-reservation');
+        return view('livewire.photographer.reservations.show-reservation');
     }
 }
