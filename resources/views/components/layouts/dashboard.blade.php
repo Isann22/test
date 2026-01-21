@@ -71,32 +71,44 @@
 
             <x-mary-menu>
 
-                <x-mary-menu-item title="Dashboard" icon="o-home" link="{{ route('admin.dashboard') }}"
-                    :active="Route::is('admin.dashboard')" />
+                @role('admin')
+                    <x-mary-menu-item title="Dashboard" icon="o-home" link="{{ route('admin.dashboard') }}"
+                        :active="Route::is('admin.dashboard')" />
 
-                <x-mary-menu-separator />
+                    <x-mary-menu-separator />
 
-                <x-mary-menu-item title="Reservations" icon="o-calendar-days"
-                    link="{{ route('admin.reservations.index') }}" :active="Route::is('admin.reservations.*')" />
+                    <x-mary-menu-item title="Reservations" icon="o-calendar-days"
+                        link="{{ route('admin.reservations.index') }}" :active="Route::is('admin.reservations.*')" />
 
-                <x-mary-menu-item title="Cities" icon="o-map-pin" link="{{ route('cities.list') }}" :active="Route::is('cities.*')" />
+                    <x-mary-menu-item title="Cities" icon="o-map-pin" link="{{ route('cities.list') }}" :active="Route::is('cities.*')" />
 
-                <x-mary-menu-item title="Moments" icon="o-sparkles" link="{{ route('moments.list') }}"
-                    :active="Route::is('moments.*')" />
+                    <x-mary-menu-item title="Moments" icon="o-sparkles" link="{{ route('moments.list') }}"
+                        :active="Route::is('moments.*')" />
 
-                <x-mary-menu-item title="Packages" icon="o-cube" wire-navigate
-                    link="{{ route('admin.packages.index') }}" :active="Route::is('admin.packages.*')" />
+                    <x-mary-menu-item title="Packages" icon="o-cube" wire-navigate
+                        link="{{ route('admin.packages.index') }}" :active="Route::is('admin.packages.*')" />
 
-                <x-mary-menu-item title="Photographers" icon="o-camera" wire-navigate
-                    link="{{ route('admin.photographers.index') }}" :active="Route::is('admin.photographers.*')" />
+                    <x-mary-menu-item title="Photographers" icon="o-camera" wire-navigate
+                        link="{{ route('admin.photographers.index') }}" :active="Route::is('admin.photographers.*')" />
 
-                <x-mary-menu-separator />
+                    <x-mary-menu-separator />
 
-                <x-mary-menu-sub title="Applicants" icon="o-user-group">
-                    <x-mary-menu-item title="Photographer" icon="o-identification"
-                        link="{{ route('photographer-applicants-list') }}" :active="Route::is('photographer-applicants-list') ||
-                            Route::is('photographers-applicant-view')" />
-                </x-mary-menu-sub>
+                    <x-mary-menu-sub title="Applicants" icon="o-user-group">
+                        <x-mary-menu-item title="Photographer" icon="o-identification"
+                            link="{{ route('photographer-applicants-list') }}" :active="Route::is('photographer-applicants-list') ||
+                                Route::is('photographers-applicant-view')" />
+                    </x-mary-menu-sub>
+                @endrole
+
+                @role('photographer')
+                    <x-mary-menu-item title="Dashboard" icon="o-home"
+                        link="{{ route('photographer-dashboard.reservations.index') }}" :active="Route::is('photographer-dashboard.reservations.index')" />
+
+                    <x-mary-menu-separator />
+
+                    <x-mary-menu-item title="Reservations" icon="o-calendar-days"
+                        link="{{ route('photographer-dashboard.reservations.index') }}" :active="Route::is('photographer-dashboard.reservations.index.*')" />
+                @endrole
             </x-mary-menu>
         </x-slot:sidebar>
 
