@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'phone_number',
         'password',
+        'email_verified_at',
         'verification_code',
         'verification_code_expires_at',
     ];
@@ -108,5 +109,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function reservations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    /**
+     * Get the photographer profile for this user.
+     */
+    public function photographerProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(PhotographerProfile::class);
     }
 }

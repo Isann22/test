@@ -1,4 +1,38 @@
-<div class="min-h-screen py-12 bg-base-200/30">
+<div class="min-h-screen py-12 bg-base-200/30" x-data="{
+    iti: null,
+    initPhoneInput() {
+        const input = this.$refs.phoneInput;
+        if (input && !this.iti) {
+            this.iti = window.intlTelInput(input, {
+                initialCountry: 'id',
+                showFlags: false,
+                autoPlaceholder: 'off',
+                nationalMode: true,
+                formatOnDisplay: true,
+                containerClass: 'w-full',
+                showSelectedDialCode: true,
+                utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@20.3.0/build/js/utils.js'
+            });
+        }
+    },
+    init() {
+        const tryInit = () => {
+            if (typeof window.intlTelInput === 'function') {
+                this.initPhoneInput();
+            } else {
+                setTimeout(tryInit, 100);
+            }
+        };
+        tryInit();
+    },
+    async submitForm() {
+        if (this.iti) {
+            const fullNumber = this.iti.getNumber();
+            $wire.set('form.phonenumber', fullNumber);
+        }
+        await $wire.submit();
+    }
+}">
     <div class="container mx-auto px-4 max-w-3xl">
 
         <div class="text-center mb-10">
@@ -8,7 +42,7 @@
 
         <div class="card bg-base-100 shadow-2xl">
             <div class="card-body p-6 md:p-10">
-                <form wire:submit="submit" class="space-y-6">
+                <form @submit.prevent="submitForm()" class="space-y-6">
 
                     {{-- Personal Information --}}
                     <div class="space-y-4">
@@ -20,8 +54,16 @@
                         <x-mary-input label="Email" type="email" wire:model="form.email"
                             placeholder="example@email.com" icon="o-envelope" />
 
-                        <x-mary-input label="Phone Number" wire:model="form.phonenumber" placeholder="+62 812 3456 7890"
-                            icon="o-phone" />
+                        <div wire:ignore>
+                            <label class="label">
+                                <span class="label-text font-medium">Phone Number</span>
+                            </label>
+                            <input type="tel" x-ref="phoneInput" class="input input-bordered w-full"
+                                placeholder="812 3456 7890" />
+                        </div>
+                        @error('form.phonenumber')
+                            <p class="text-error text-sm">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Social & Portfolio Links --}}
@@ -109,3 +151,7 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@20.3.0/build/js/intlTelInput.min.js"></script>
+@endpush

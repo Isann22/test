@@ -100,6 +100,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::get('/create', App\Livewire\Admin\Packages\CreatePackage::class)->name('create');
         Route::get('/{package}/edit', App\Livewire\Admin\Packages\EditPackage::class)->name('edit');
     });
+
+    // Photographers
+    Route::prefix('photographers')->name('admin.photographers.')->group(function () {
+        Route::get('/', App\Livewire\Admin\Photographers\ListPhotographers::class)->name('index');
+        Route::get('/{photographer}', App\Livewire\Admin\Photographers\ShowPhotographer::class)->name('show');
+    });
 });
 
 Route::get('/auth/google/redirect', [App\Http\Controllers\oauth\GoogleController::class, 'redirect'])->name('auth.google.redirect');

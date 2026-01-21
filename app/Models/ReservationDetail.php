@@ -15,6 +15,7 @@ class ReservationDetail extends Model
         'city_id',
         'moment_id',
         'package_id',
+        'photographer_id',
         'photoshoot_date',
         'photoshoot_time',
         'pax',
@@ -49,5 +50,10 @@ class ReservationDetail extends Model
     public function package(): BelongsTo
     {
         return $this->belongsTo(Package::class);
+    }
+
+    public function photographer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'photographer_id');
     }
 }

@@ -103,6 +103,51 @@
         </x-filament::section>
     </div>
 
+    {{-- Photographer Section --}}
+    <x-filament::section>
+        <x-slot name="heading">Photographer</x-slot>
+
+        @if ($reservation->detail?->photographer)
+            {{-- Show assigned photographer --}}
+            <dl class="space-y-3 text-sm">
+                <div class="flex justify-between">
+                    <dt class="text-gray-500 dark:text-gray-400">Assigned Photographer</dt>
+                    <dd class="font-medium text-gray-900 dark:text-white">
+                        {{ $reservation->detail->photographer->name }}
+                    </dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="text-gray-500 dark:text-gray-400">Email</dt>
+                    <dd class="text-gray-900 dark:text-white">
+                        {{ $reservation->detail->photographer->email }}
+                    </dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="text-gray-500 dark:text-gray-400">Phone</dt>
+                    <dd class="text-gray-900 dark:text-white">
+                        {{ $reservation->detail->photographer->phone_number ?? '-' }}
+                    </dd>
+                </div>
+            </dl>
+        @elseif ($reservation->status->value === 'confirmed')
+            {{-- Show assignment form --}}
+            <div class="space-y-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    Assign a photographer to this reservation. Status will automatically change to "In Progress".
+                </p>
+                {{ $this->photographerForm }}
+            </div>
+        @else
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                @if ($reservation->status->value === 'pending')
+                    Waiting for payment confirmation before assigning photographer.
+                @else
+                    No photographer assigned.
+                @endif
+            </p>
+        @endif
+    </x-filament::section>
+
     @if ($reservation->detail->location_details || $reservation->detail->additional_info)
         <x-filament::section>
             <x-slot name="heading">Additional Info</x-slot>
