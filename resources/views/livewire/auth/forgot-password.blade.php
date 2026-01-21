@@ -1,6 +1,6 @@
-<div class="p-6 xl:p-10 rounded-lg flex-1">
+<div class="p-6 xl:p-10 rounded-xl border border-zinc-200 flex-1">
     <div class="flex items-center justify-between gap-5">
-        <div class="size-9 rounded-full bg-blue-700 shadow-blue-500/10">
+        <div class="">
         </div>
         <p class="text-xs text-gray-500 flex items-center gap-1">
             Remembered your password? <a wire:navigate.hover href="{{ route('login') }}"
@@ -25,7 +25,7 @@
     <form wire:submit="sendResetLink" class="mt-7 w-11/12 xl:w-3/4 2xl:w-2/3 mx-auto space-y-4">
         <hr class="border-t border-gray-800 h-1 mb-6">
         <x-form.input-text label="Email Address" name="email" placeholder="hello@example.com" required />
-        <button type="submit" class="btn-primary px-4 py-2 w-full">
+        <button type="submit" class="btn btn-primary px-4 py-2 w-full">
             <span wire:loading.remove wire:target="sendResetLink">Send Password Reset Link</span>
             <x-spinner class="size-6" wire:loading wire:target="sendResetLink" />
         </button>

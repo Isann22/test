@@ -1,6 +1,6 @@
-<div class="p-6 xl:p-10 rounded-lg flex-1">
+<div class="-6 xl:p-10 rounded-xl border border-zinc-200 flex-1">
     <div class="flex items-center justify-between gap-5">
-        <div class="size-9 rounded-full bg-blue-700 shadow-blue-500/10">
+        <div class="">
         </div>
         <p class="text-xs text-gray-500 flex items-center gap-1">
             Remembered your password? <a wire:navigate.hover href="{{ route('login') }}"
@@ -30,7 +30,7 @@
         <x-form.input-text label="New Password" name="password" type="password" placeholder="********" required />
         <x-form.input-text label="Confirm New Password" name="password_confirmation" type="password"
             placeholder="********" required />
-        <button type="submit" class="btn-primary px-4 py-2 w-full">
+        <button type="submit" class="btn btn-primary px-4 py-2 w-full">
             <span wire:loading.remove wire:target="resetPassword">
                 Reset Password
             </span>
