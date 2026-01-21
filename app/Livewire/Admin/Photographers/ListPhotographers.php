@@ -61,9 +61,6 @@ class ListPhotographers extends Component implements HasActions, HasSchemas, Has
                 Action::make('view')
                     ->icon('heroicon-s-eye')
                     ->url(fn (User $record) => route('admin.photographers.show', $record)),
-                Action::make('edit')
-                    ->icon('heroicon-s-pencil')
-                    ->url(fn (User $record) => route('admin.photographers.edit', $record)),
             ]);
     }
 

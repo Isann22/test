@@ -104,6 +104,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Photographers
     Route::prefix('photographers')->name('admin.photographers.')->group(function () {
         Route::get('/', App\Livewire\Admin\Photographers\ListPhotographers::class)->name('index');
+        Route::get('/{photographer}', App\Livewire\Admin\Photographers\ShowPhotographer::class)->name('show');
     });
 });
 
