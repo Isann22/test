@@ -30,11 +30,13 @@ class ReservationStatusNotification extends Notification implements ShouldQueue
         return match ($status) {
             ReservationStatus::Pending => $this->pendingMail($reservation),
             ReservationStatus::Confirmed => $this->confirmedMail($reservation),
+            ReservationStatus::InProgress => $this->inProgressMail($reservation),
             ReservationStatus::Completed => $this->completedMail($reservation),
             ReservationStatus::Cancelled => $this->cancelledMail($reservation),
             default => $this->defaultMail($reservation),
         };
     }
+
 
     protected function pendingMail(Reservation $reservation): MailMessage
     {
@@ -48,8 +50,21 @@ class ReservationStatusNotification extends Notification implements ShouldQueue
             ->line('**Package:** ' . $reservation->detail->package->name)
             ->line('**Date:** ' . $reservation->detail->photoshoot_date->format('d M Y'))
             ->line('**Time:** ' . $reservation->detail->photoshoot_time)
-            ->line('**Total:** Rp ' . number_format($reservation->total_amount, 0, ',', '.'))
+            ->line('**Total:** Rp ' . $reservation->total_amount)
             ->line('Please complete your payment to confirm your booking.')
+            ->action('View Reservation', url('/my-reservations/'))
+            ->line('Thank you for choosing us!');
+    }
+
+    protected function inProgressMail(Reservation $reservation): MailMessage
+    {
+        return (new MailMessage)
+            ->subject('Reservation In Progress - ' . $reservation->reservation_code)
+            ->greeting('Hi ' . $reservation->user->name . '!')
+            ->line('Your reservation is in progress.')
+            ->line('**Photographer:** ' . $reservation->detail->photographer->name)
+            ->line('**Photographer Phone:** ' . $reservation->detail->photographer->phone_number)
+            ->line('**Moment:** ' . $reservation->detail->moment->name)
             ->action('View Reservation', url('/my-reservations/'))
             ->line('Thank you for choosing us!');
     }

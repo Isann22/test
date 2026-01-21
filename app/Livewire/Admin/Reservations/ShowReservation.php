@@ -150,9 +150,13 @@ class ShowReservation extends Component implements HasForms
             'status' => ReservationStatus::InProgress->value
         ]);
 
+     
+
         $this->reservation->refresh();
         $this->reservation->load(['detail.photographer']);
         $this->status = $this->reservation->status->value;
+
+        event(new \App\Events\ReservationStatusChanged($this->reservation));
 
         Notification::make()
             ->success()
@@ -170,7 +174,14 @@ class ShowReservation extends Component implements HasForms
         $updateData = ['status' => $newStatus];
 
         if ($newStatus === ReservationStatus::Cancelled->value) {
+
             $updateData['cancelled_at'] = now();
+            
+            $this->reservation->update([
+                'status' => ReservationStatus::Cancelled->value,
+            ]);
+
+            event(new \App\Events\ReservationStatusChanged($this->reservation));  
         }
 
         $this->reservation->update($updateData);
