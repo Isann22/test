@@ -65,6 +65,7 @@ Route::prefix('my-reservations')->name('reserved.')->middleware(['auth', 'verifi
 Route::middleware(['auth', 'role:photographer'])->prefix('photographer-dashboard')->name('photographer.')->group(function () {
     Route::prefix('reservations')->name('reservations.')->group(function () {
         Route::get('/', App\Livewire\Photographer\ListReservations::class)->name('index');
+        Route::get('/{reservationDetail}', App\Livewire\Photographer\ShowReservation::class)->name('show');
     });
 });
 
