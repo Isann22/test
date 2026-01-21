@@ -2,16 +2,18 @@
 
 namespace App\Livewire\Reserved;
 
-use App\Enums\PaymentStatus;
-use App\Enums\ReservationStatus;
-use App\Models\Reservation;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Title;
+use Carbon\Carbon;
 use Livewire\Component;
+use App\Models\Reservation;
+use Livewire\Attributes\On;
+use App\Enums\PaymentStatus;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
+use App\Enums\ReservationStatus;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
+
 
 #[Title('My Reservations')]
 class Index extends Component
@@ -19,6 +21,8 @@ class Index extends Component
     use WithPagination;
 
     public string $statusFilter = '';
+    public bool $showCancelModal = false;
+    public ?string $reservationIdToCancel = null;
 
     #[Computed]
     public function reservations()
@@ -28,6 +32,44 @@ class Index extends Component
             ->when($this->statusFilter, fn($q) => $q->where('status', $this->statusFilter))
             ->latest()
             ->paginate(10);
+    }
+
+    public function openCancelModal(string $reservationId): void
+    {
+        $this->reservationIdToCancel = $reservationId;
+        $this->showCancelModal = true;
+    }
+
+    public function closeCancelModal(): void
+    {
+        $this->showCancelModal = false;
+        $this->reservationIdToCancel = null;
+    }
+
+    public function confirmCancel(): void
+    {
+        $reservation = Reservation::where('id', $this->reservationIdToCancel)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if (!$reservation) {
+            Toaster::error('Reservation not found.');
+            $this->closeCancelModal();
+            return;
+        }
+
+        if (Carbon::parse($reservation->created_at)->addDays(2)->isPast()) {
+            Toaster::error('Cancellation period has expired (2 days from booking).');
+            $this->closeCancelModal();
+            return;
+        }
+
+        $reservation->cancelled_at = now();
+        $reservation->status = ReservationStatus::Cancelled;
+        $reservation->save();
+
+        $this->closeCancelModal();
+        Toaster::success('Reservation has been successfully canceled.');
     }
 
     public function submit(string $reservationId, string $snapToken): void

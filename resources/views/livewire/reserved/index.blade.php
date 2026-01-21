@@ -116,13 +116,13 @@
                                                 <x-mary-icon name="o-credit-card" class="w-4 h-4" />
                                                 Pay Now
                                             </button>
-                                            <button class="btn btn-sm btn-ghost text-error">
+
+                                            <button wire:click="openCancelModal('{{ $reservation->id }}')"
+                                                class="btn btn-sm btn-ghost text-error">
+                                                <x-mary-icon name="o-x-circle" class="w-4 h-4" />
                                                 Cancel
                                             </button>
 
-                                            <button @click="Toaster.success('Form submitted!')">
-                                                Submit
-                                            </button>
                                         </div>
                                     @elseif (in_array($reservation->status->value, ['confirmed', 'in_progress', 'completed']))
                                         <a href="{{ route('reserved.show', $reservation) }}"
@@ -148,6 +148,18 @@
             </div>
         @endif
     </div>
+
+    <x-mary-modal wire:model="showCancelModal" class="backdrop-blur" title="Cancel Reservation" separator>
+        <h3 class="text-lg font-semibold text-base-content mb-2">Are you sure?</h3>
+        <p class="text-base-content/70">
+            Do you really want to cancel this reservation?
+        </p>
+
+        <x-slot:actions>
+            <x-mary-button label="No, Keep It" wire:click="closeCancelModal" />
+            <x-mary-button label="Yes, Cancel" class="btn-error" wire:click="confirmCancel" spinner="confirmCancel" />
+        </x-slot:actions>
+    </x-mary-modal>
 </div>
 
 
