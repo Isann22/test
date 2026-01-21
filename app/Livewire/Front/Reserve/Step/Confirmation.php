@@ -114,6 +114,9 @@ class Confirmation extends StepComponent
         ]);
 
         Toaster::success('Payment successful! Your reservation is confirmed.');
+        
+        event(new \App\Events\ReservationStatusChanged($reservation));
+
         $this->redirect(route('reserved.index'));
     }
 

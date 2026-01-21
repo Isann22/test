@@ -55,6 +55,8 @@ class ShowReservation extends Component
             'status' => ReservationStatus::Completed,
         ]);
 
+        event(new \App\Events\ReservationStatusChanged($this->reservationDetail->reservation));
+
         // Refresh the model
         $this->reservationDetail->refresh();
         $this->reservationDetail->load('reservation');
