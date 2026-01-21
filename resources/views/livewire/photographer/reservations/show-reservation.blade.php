@@ -3,8 +3,8 @@
     <div class="mb-6">
         <x-mary-header title="Reservation Details" subtitle="View reservation information and submit drive link">
             <x-slot:actions>
-                <x-mary-button label="Back to List" link="{{ route('photographer.reservations.index') }}"
-                    icon="o-arrow-left" class="btn-ghost" />
+                <x-mary-button label="Back to List" link="{{ route('reservations.list') }}" icon="o-arrow-left"
+                    class="btn-ghost" />
             </x-slot:actions>
         </x-mary-header>
     </div>

@@ -53,7 +53,7 @@ class Login extends Component
             }
 
             if ($user->hasRole('photographer')) {
-                return redirect()->route('photographer.reservations.index')->success('Welcome Back, Photographer ' . $user->name);
+                return redirect()->route('photographer.dashboard')->success('Welcome Back, Photographer ' . $user->name);
             }
 
             return redirect(route('home'))->success('Logged in as ' . Auth::user()->name);
