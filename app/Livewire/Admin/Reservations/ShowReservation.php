@@ -34,7 +34,7 @@ class ShowReservation extends Component implements HasForms
             'detail.photographer',
             'payment'
         ]);
-        
+
         $this->status = $this->reservation->status->value;
         $this->photographer_id = $this->reservation->detail?->photographer_id;
     }
@@ -96,35 +96,25 @@ class ShowReservation extends Component implements HasForms
         $photographers = User::query()
             ->whereHas('photographerProfile', function ($q) use ($cityName, $momentName) {
                 $q->where('is_active', true)
-                 ;
+                    ->whereJsonContains('cities', $cityName)
+                    ->whereJsonContains('moments', $momentName);
             })
-            ->with('photographerProfile')
-            ->get();
-
-        $available = [];
-        
-
-        foreach ($photographers as $photographer) {
-            // Check if photographer has any blocking schedule at this time
-            $hasConflict = $photographer->schedules()
-                ->active()
-                ->forDate($date)
-                ->whereIn('schedule_type', [
-                    ScheduleTypes::APPOINTMENT->value,
-                    ScheduleTypes::BLOCKED->value,
-                ])
-                ->whereHas('periods', function ($query) use ($startTime, $endTime) {
-                    $query->where(function ($q) use ($startTime, $endTime) {
+            ->whereDoesntHave('schedules', function ($query) use ($date, $startTime, $endTime) {
+                $query->active()
+                    ->forDate($date)
+                    ->whereIn('schedule_type', [
+                        ScheduleTypes::APPOINTMENT->value,
+                        ScheduleTypes::BLOCKED->value,
+                    ])
+                    // Cek tabrakan waktu (Time Overlap)
+                    ->whereHas('periods', function ($q) use ($startTime, $endTime) {
                         $q->where('start_time', '<', $endTime)
-                          ->where('end_time', '>', $startTime);
+                            ->where('end_time', '>', $startTime);
                     });
-                })
-                ->exists();
-
-            if (!$hasConflict) {
-                $available[$photographer->id] = $photographer->name;
-            }
-        }
+            })
+            ->select('id', 'name')
+            ->get();
+        $available = $photographers->pluck('name', 'id')->toArray();
 
         return $available;
     }
@@ -138,10 +128,10 @@ class ShowReservation extends Component implements HasForms
         $photographer = User::findOrFail($photographerId);
         $detail = $this->reservation->detail;
 
-      
+
         $startTime = \Carbon\Carbon::parse($detail->photoshoot_time)->format('H:i');
         $endTime = \Carbon\Carbon::parse($detail->end_time)->format('H:i');
-        
+
         $photographer->createSchedule()
             ->appointment()
             ->from($detail->photoshoot_date)
