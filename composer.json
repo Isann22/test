@@ -32,6 +32,7 @@
         "laravel/framework": "^12.0",
         "laravel/socialite": "^5.24",
         "laravel/tinker": "^2.10.1",
+        "laraveljutsu/zap": "^1.10",
         "league/flysystem-aws-s3-v3": "^3.30",
         "livewire/livewire": "^3.7",
         "masmerise/livewire-toaster": "^2.8",
