@@ -92,25 +92,48 @@
                                 Your Photographer
                             </h2>
 
-                            <div class="flex items-center gap-4">
-                                <div class="avatar  placeholder">
-                                    <div
-                                        class="bg-primary flex items-center justify-center text-primary-content rounded-full w-16">
-                                        <span class="text-xl">{{ substr($photographer['name'], 0, 1) }}</span>
+                            @if ($reservation->detail?->photographer)
+                                <div class="flex items-center gap-4">
+                                    <div class="avatar placeholder">
+                                        <div
+                                            class="bg-primary flex items-center justify-center text-primary-content rounded-full w-16">
+                                            <span
+                                                class="text-xl">{{ substr($reservation->detail->photographer->name, 0, 1) }}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-lg">{{ $reservation->detail->photographer->name }}</p>
+                                        <p class="text-base-content/60 text-sm">Professional Photographer</p>
+                                        @if ($reservation->detail->photographer->phone_number)
+                                            <p class="text-base-content/60 text-sm mt-1">
+                                                <x-mary-icon name="o-phone" class="w-4 h-4 inline" />
+                                                {{ $reservation->detail->photographer->phone_number }}
+                                            </p>
+                                        @endif
                                     </div>
                                 </div>
-                                <div>
-                                    <p class="font-bold text-lg">{{ $photographer['name'] }}</p>
-                                    <p class="text-base-content/60 text-sm">Professional Photographer</p>
+                            @else
+                                <div class="flex items-center gap-4">
+                                    <div class="avatar placeholder">
+                                        <div
+                                            class="bg-base-300 flex items-center justify-center text-base-content/50 rounded-full w-16">
+                                            <x-mary-icon name="o-user" class="w-8 h-8" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-base-content/70">Assigning photographer...</p>
+                                        <p class="text-base-content/50 text-sm">We'll notify you once a photographer is
+                                            assigned</p>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 @endif
 
                 {{-- Drive Link Card (shown only for completed) --}}
                 @if ($reservation->status->value === 'completed' && $driveLink)
-                    <div class="card bg-gradient-to-r from-success/10 to-success/5 border border-success/20 shadow-xl">
+                    <div class="card bg-linear-to-r from-success/10 to-success/5 border border-success/20 shadow-xl">
                         <div class="card-body">
                             <h2 class="card-title text-success mb-2">
                                 <x-mary-icon name="o-photo" class="w-5 h-5" />
