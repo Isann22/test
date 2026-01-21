@@ -149,6 +149,31 @@
                             </a>
                         </div>
                     </div>
+
+                    {{-- Rating Card --}}
+                    <div class="card bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title mb-4">
+                                <x-mary-icon name="o-star" class="w-5 h-5 text-warning" />
+                                Rate Your Photographer
+                            </h2>
+
+                            @if (!$hasRated)
+                                <p class="text-base-content/70 mb-4">
+                                    How was your experience with
+                                    {{ $reservation->detail?->photographer?->name ?? 'your photographer' }}?
+                                </p>
+                                <x-mary-rating wire:model="rating" class="rating-lg mb-4" />
+                                <x-mary-button label="Submit Rating" class="btn-primary" wire:click="submitRating"
+                                    spinner icon="o-paper-airplane" />
+                            @else
+                                <div class="text-center py-4">
+                                    <x-mary-icon name="o-check-circle" class="w-12 h-12 text-success mx-auto mb-2" />
+                                    <p class="font-semibold">Thank you for your rating!</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 @endif
             </div>
 
