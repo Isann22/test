@@ -26,7 +26,7 @@ class Show extends Component
         ]);
 
         if ($this->reservation->status->value === 'completed') {
-            $this->driveLink = 'https://drive.google.com/drive/folders/example-folder-id';
+            $this->driveLink = $this->reservation->detail?->drive_link;
         }
     }
 

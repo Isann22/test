@@ -52,6 +52,10 @@ class Login extends Component
                 return redirect()->route('admin.dashboard')->success('Welcome Back, Admin ' . $user->name);
             }
 
+            if ($user->hasRole('photographer')) {
+                return redirect()->route('photographer.dashboard')->success('Welcome Back, Photographer ' . $user->name);
+            }
+
             return redirect(route('home'))->success('Logged in as ' . Auth::user()->name);
         }
 
