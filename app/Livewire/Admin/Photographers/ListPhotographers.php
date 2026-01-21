@@ -8,7 +8,7 @@ use Filament\Tables\Table;
 use Filament\Actions\Action;
 use Livewire\Attributes\Layout;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Schemas\Contracts\HasSchemas;
@@ -46,9 +46,17 @@ class ListPhotographers extends Component implements HasActions, HasSchemas, Has
                     ->label('Cities')
                     ->badge()
                     ->formatStateUsing(fn ($state) => is_array($state) ? implode(', ', $state) : $state),
-                IconColumn::make('photographerProfile.is_active')
+                ToggleColumn::make('photographerProfile.is_active')
                     ->label('Active')
-                    ->boolean(),
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->afterStateUpdated(function (User $record, $state) {
+                        \Filament\Notifications\Notification::make()
+                            ->success()
+                            ->title('Status Updated')
+                            ->body("{$record->name} has been " . ($state ? 'activated' : 'deactivated'))
+                            ->send();
+                    }),
                 TextColumn::make('photographerProfile.rating')
                     ->label('Rating')
                     ->suffix(' ⭐'),
@@ -61,6 +69,17 @@ class ListPhotographers extends Component implements HasActions, HasSchemas, Has
                 Action::make('view')
                     ->icon('heroicon-s-eye')
                     ->url(fn (User $record) => route('admin.photographers.show', $record)),
+            ])
+            ->filters([
+                \Filament\Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('Status')
+                    ->placeholder('All')
+                    ->trueLabel('Active')
+                    ->falseLabel('Inactive')
+                    ->queries(
+                        true: fn ($query) => $query->whereHas('photographerProfile', fn ($q) => $q->where('is_active', true)),
+                        false: fn ($query) => $query->whereHas('photographerProfile', fn ($q) => $q->where('is_active', false)),
+                    ),
             ]);
     }
 
