@@ -87,6 +87,9 @@
                 <x-mary-menu-item title="Packages" icon="o-cube" wire-navigate
                     link="{{ route('admin.packages.index') }}" :active="Route::is('admin.packages.*')" />
 
+                <x-mary-menu-item title="Photographers" icon="o-camera" wire-navigate
+                    link="{{ route('admin.photographers.index') }}" :active="Route::is('admin.photographers.*')" />
+
                 <x-mary-menu-separator />
 
                 <x-mary-menu-sub title="Applicants" icon="o-user-group">
