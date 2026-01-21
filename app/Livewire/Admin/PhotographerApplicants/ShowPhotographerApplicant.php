@@ -64,6 +64,11 @@ class ShowPhotographerApplicant extends Component implements HasForms
             ->title('Status Updated')
             ->body("Applicant status changed to {$this->record->status->label()}")
             ->send();
+
+        // Dispatch event for hired/rejected status
+        if (in_array($newStatus, [ApplicantStatus::Hired->value, ApplicantStatus::Rejected->value])) {
+            event(new \App\Events\ApplicantStatusChanged($this->record, $newStatus));
+        }
     }
 
     public function render(): View
