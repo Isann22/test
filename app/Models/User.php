@@ -109,4 +109,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Reservation::class);
     }
+
+    /**
+     * Get the photographer profile for this user.
+     */
+    public function photographerProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(PhotographerProfile::class);
+    }
 }
