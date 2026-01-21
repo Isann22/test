@@ -23,6 +23,7 @@ class ReservationDetail extends Model
         'location_type',
         'location_details',
         'additional_info',
+        'drive_link',
     ];
 
     protected function casts(): array
