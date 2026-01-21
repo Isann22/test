@@ -47,10 +47,10 @@ class ReservationStatusNotification extends Notification implements ShouldQueue
             ->line('**Moment:** ' . $reservation->detail->moment->name)
             ->line('**Package:** ' . $reservation->detail->package->name)
             ->line('**Date:** ' . $reservation->detail->photoshoot_date->format('d M Y'))
-            ->line('**Time:** ' . $reservation->detail->photoshoot_time->format('H:i'))
+            ->line('**Time:** ' . $reservation->detail->photoshoot_time)
             ->line('**Total:** Rp ' . number_format($reservation->total_amount, 0, ',', '.'))
             ->line('Please complete your payment to confirm your booking.')
-            ->action('View Reservation', url('/my-reservations/' . $reservation->id))
+            ->action('View Reservation', url('/my-reservations/'))
             ->line('Thank you for choosing us!');
     }
 
@@ -64,7 +64,7 @@ class ReservationStatusNotification extends Notification implements ShouldQueue
             ->line('**Location:** ' . $reservation->detail->city->name)
             ->line('**Moment:** ' . $reservation->detail->moment->name)
             ->line('**Date:** ' . $reservation->detail->photoshoot_date->format('d M Y'))
-            ->line('**Time:** ' . $reservation->detail->photoshoot_time->format('H:i'))
+            ->line('**Time:** ' . $reservation->detail->photoshoot_time)
             ->line('Our photographer will contact you before your session.')
             ->action('View Details', url('/my-reservations/' . $reservation->id))
             ->line('Thank you!');

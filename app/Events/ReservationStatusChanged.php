@@ -14,6 +14,5 @@ class ReservationStatusChanged
 
     public function __construct(
         public Reservation $reservation,
-        public ?ReservationStatus $oldStatus = null
     ) {}
 }

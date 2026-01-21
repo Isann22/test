@@ -57,6 +57,8 @@ class Index extends Component
             'paid_at' => now(),
         ]);
 
+        event(new \App\Events\ReservationStatusChanged($reservation));
+
         Toaster::success('Payment successful! Your reservation is confirmed.');
     }
 
@@ -79,6 +81,8 @@ class Index extends Component
                 'gateway_response' => $result,
             ]);
         }
+
+        event(new \App\Events\ReservationStatusChanged($reservation));
 
         Toaster::error('Payment failed. Please try again.');
     }

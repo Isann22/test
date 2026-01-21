@@ -87,6 +87,8 @@ class ReservationService
             'additional_info' => $bookingData['additionalInfo'] ?? null,
         ]);
 
+        event(new \App\Events\ReservationStatusChanged($reservation));
+
         return $reservation;
     }
 
