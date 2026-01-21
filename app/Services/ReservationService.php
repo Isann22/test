@@ -69,6 +69,10 @@ class ReservationService
             'total_amount' => $context['totalAmount'],
         ]);
 
+        // Calculate end_time from photoshoot_time + package hour_duration
+        $startTime = \Carbon\Carbon::parse($bookingData['time']);
+        $endTime = $startTime->copy()->addHours($context['package']->hour_duration);
+
         ReservationDetail::create([
             'reservation_id' => $reservation->id,
             'city_id' => $context['city']->id,
@@ -76,6 +80,7 @@ class ReservationService
             'package_id' => $context['package']->id,
             'photoshoot_date' => $bookingData['date'],
             'photoshoot_time' => $bookingData['time'],
+            'end_time' => $endTime->format('H:i:s'),
             'pax' => $bookingData['pax'],
             'location_type' => $bookingData['location'],
             'location_details' => $bookingData['locationDetails'] ?? null,
