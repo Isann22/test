@@ -96,13 +96,13 @@ class ShowReservation extends Component implements HasForms
         $photographers = User::query()
             ->whereHas('photographerProfile', function ($q) use ($cityName, $momentName) {
                 $q->where('is_active', true)
-                  ->whereJsonContains('cities', $cityName)
-                  ->whereJsonContains('moments', $momentName);
+                 ;
             })
             ->with('photographerProfile')
             ->get();
 
         $available = [];
+        
 
         foreach ($photographers as $photographer) {
             // Check if photographer has any blocking schedule at this time
@@ -114,7 +114,6 @@ class ShowReservation extends Component implements HasForms
                     ScheduleTypes::BLOCKED->value,
                 ])
                 ->whereHas('periods', function ($query) use ($startTime, $endTime) {
-                    // Check for overlapping periods
                     $query->where(function ($q) use ($startTime, $endTime) {
                         $q->where('start_time', '<', $endTime)
                           ->where('end_time', '>', $startTime);
@@ -139,14 +138,16 @@ class ShowReservation extends Component implements HasForms
         $photographer = User::findOrFail($photographerId);
         $detail = $this->reservation->detail;
 
-        // Create appointment schedule for this photographer
+      
+        $startTime = \Carbon\Carbon::parse($detail->photoshoot_time)->format('H:i');
+        $endTime = \Carbon\Carbon::parse($detail->end_time)->format('H:i');
+        
         $photographer->createSchedule()
             ->appointment()
             ->from($detail->photoshoot_date)
-            ->to($detail->photoshoot_date)
             ->named("Booking: {$this->reservation->reservation_code}")
             ->description("Photoshoot for {$this->reservation->user->name}")
-            ->addPeriod($detail->photoshoot_time, $detail->end_time)
+            ->addPeriod($startTime, $endTime)
             ->save();
 
         // Update photographer in reservation detail
