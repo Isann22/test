@@ -18,6 +18,7 @@ class ReservationDetail extends Model
         'photographer_id',
         'photoshoot_date',
         'photoshoot_time',
+        'end_time',
         'pax',
         'location_type',
         'location_details',

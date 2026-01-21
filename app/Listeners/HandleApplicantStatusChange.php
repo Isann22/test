@@ -59,6 +59,25 @@ class HandleApplicantStatusChange implements ShouldQueue
                 'is_active' => true,
             ]);
 
+            // Create default availability schedule (Mon-Sun 08:00-20:00)
+            $user->createSchedule()
+                ->availability()
+                ->from(now())
+                ->to(now()->addYear()) // 1 year availability
+                ->named('Default Availability')
+                ->description('Default working hours')
+                ->weekly([
+                    \Carbon\Carbon::MONDAY,
+                    \Carbon\Carbon::TUESDAY,
+                    \Carbon\Carbon::WEDNESDAY,
+                    \Carbon\Carbon::THURSDAY,
+                    \Carbon\Carbon::FRIDAY,
+                    \Carbon\Carbon::SATURDAY,
+                    \Carbon\Carbon::SUNDAY,
+                ])
+                ->addPeriod('08:00', '20:00')
+                ->save();
+
             // Send welcome notification with password reset link
             $user->notify(new PhotographerWelcome());
         });

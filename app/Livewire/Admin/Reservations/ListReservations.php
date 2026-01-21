@@ -76,9 +76,9 @@ class ListReservations extends Component implements HasActions, HasSchemas, HasT
                     ->label('Payment')
                     ->badge()
                     ->color(fn(?PaymentStatus $state): string => match ($state) {
-                        PaymentStatus::Paid => 'success',
+                        PaymentStatus::Settlement => 'success',
                         PaymentStatus::Pending => 'warning',
-                        PaymentStatus::Failed, PaymentStatus::Expired => 'danger',
+                        PaymentStatus::Failure, PaymentStatus::Expired => 'danger',
                         default => 'gray',
                     })
                     ->formatStateUsing(fn(?PaymentStatus $state): string => $state?->label() ?? '-'),

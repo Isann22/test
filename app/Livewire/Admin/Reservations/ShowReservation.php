@@ -13,6 +13,7 @@ use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Zap\Enums\ScheduleTypes;
 
 #[Layout('components.layouts.dashboard')]
 class ShowReservation extends Component implements HasForms
@@ -33,7 +34,7 @@ class ShowReservation extends Component implements HasForms
             'detail.photographer',
             'payment'
         ]);
-        
+
         $this->status = $this->reservation->status->value;
         $this->photographer_id = $this->reservation->detail?->photographer_id;
     }
@@ -67,14 +68,11 @@ class ShowReservation extends Component implements HasForms
             ->schema([
                 Select::make('photographer_id')
                     ->label('Assign Photographer')
-                    ->options(
-                        User::query()
-                            ->whereHas('photographerProfile', fn($q) => $q->where('is_active', true))
-                            ->pluck('name', 'id')
-                    )
+                    ->options(fn() => $this->getAvailablePhotographers())
                     ->searchable()
                     ->placeholder('Select a photographer')
                     ->native(false)
+                    ->helperText('Only photographers available on the booking date/time are shown')
                     ->live()
                     ->afterStateUpdated(function (?string $state) {
                         $this->assignPhotographer($state);
@@ -82,11 +80,65 @@ class ShowReservation extends Component implements HasForms
             ]);
     }
 
+    /**
+     * Get photographers available for this reservation's date/time.
+     */
+    protected function getAvailablePhotographers(): array
+    {
+        $detail = $this->reservation->detail;
+        $date = $detail->photoshoot_date->format('Y-m-d');
+        $startTime = $detail->photoshoot_time;
+        $endTime = $detail->end_time;
+        $cityName = $detail->city->name;
+        $momentName = $detail->moment->name;
+
+        // Get all active photographers that cover this city and moment
+        $photographers = User::query()
+            ->whereHas('photographerProfile', function ($q) use ($cityName, $momentName) {
+                $q->where('is_active', true)
+                    ->whereJsonContains('cities', $cityName)
+                    ->whereJsonContains('moments', $momentName);
+            })
+            ->whereDoesntHave('schedules', function ($query) use ($date, $startTime, $endTime) {
+                $query->active()
+                    ->forDate($date)
+                    ->whereIn('schedule_type', [
+                        ScheduleTypes::APPOINTMENT->value,
+                        ScheduleTypes::BLOCKED->value,
+                    ])
+                    // Cek tabrakan waktu (Time Overlap)
+                    ->whereHas('periods', function ($q) use ($startTime, $endTime) {
+                        $q->where('start_time', '<', $endTime)
+                            ->where('end_time', '>', $startTime);
+                    });
+            })
+            ->select('id', 'name')
+            ->get();
+        $available = $photographers->pluck('name', 'id')->toArray();
+
+        return $available;
+    }
+
     public function assignPhotographer(?string $photographerId): void
     {
         if (!$photographerId) {
             return;
         }
+
+        $photographer = User::findOrFail($photographerId);
+        $detail = $this->reservation->detail;
+
+
+        $startTime = \Carbon\Carbon::parse($detail->photoshoot_time)->format('H:i');
+        $endTime = \Carbon\Carbon::parse($detail->end_time)->format('H:i');
+
+        $photographer->createSchedule()
+            ->appointment()
+            ->from($detail->photoshoot_date)
+            ->named("Booking: {$this->reservation->reservation_code}")
+            ->description("Photoshoot for {$this->reservation->user->name}")
+            ->addPeriod($startTime, $endTime)
+            ->save();
 
         // Update photographer in reservation detail
         $this->reservation->detail->update([
@@ -101,8 +153,6 @@ class ShowReservation extends Component implements HasForms
         $this->reservation->refresh();
         $this->reservation->load(['detail.photographer']);
         $this->status = $this->reservation->status->value;
-
-        $photographer = User::findOrFail($photographerId);
 
         Notification::make()
             ->success()
