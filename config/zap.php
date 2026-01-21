@@ -34,9 +34,9 @@ return [
             ],
         ],
         'working_hours' => [
-            'enabled' => false,
-            'start' => '09:00',
-            'end' => '17:00',
+            'enabled' => true,
+            'start' => '08:00',
+            'end' => '20:00',
         ],
         'max_duration' => [
             'enabled' => false,
