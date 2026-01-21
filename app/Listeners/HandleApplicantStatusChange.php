@@ -6,9 +6,11 @@ use App\Enums\ApplicantStatus;
 use App\Events\ApplicantStatusChanged;
 use App\Models\PhotographerProfile;
 use App\Models\User;
+use App\Notifications\Photographer\ApplicantRejected;
+use App\Notifications\Photographer\PhotographerWelcome;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class HandleApplicantStatusChange implements ShouldQueue
@@ -57,11 +59,8 @@ class HandleApplicantStatusChange implements ShouldQueue
                 'is_active' => true,
             ]);
 
-            // Send password reset link so photographer can set their password
-            Password::sendResetLink(['email' => $user->email]);
-
-            // TODO: Send welcome notification
-            // $user->notify(new PhotographerWelcome());
+            // Send welcome notification with password reset link
+            $user->notify(new PhotographerWelcome());
         });
     }
 
@@ -70,8 +69,8 @@ class HandleApplicantStatusChange implements ShouldQueue
      */
     protected function handleRejected($applicant): void
     {
-        // TODO: Send rejection notification
-        // Notification::route('mail', $applicant->email)
-        //     ->notify(new ApplicantRejected($applicant));
+        // Send rejection notification to applicant email
+        Notification::route('mail', $applicant->email)
+            ->notify(new ApplicantRejected($applicant));
     }
 }
