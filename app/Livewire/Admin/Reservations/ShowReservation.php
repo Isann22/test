@@ -14,6 +14,7 @@ use Filament\Notifications\Notification;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Zap\Enums\ScheduleTypes;
+use Masmerise\Toaster\Toaster;
 
 #[Layout('components.layouts.dashboard')]
 class ShowReservation extends Component implements HasForms
@@ -132,11 +133,12 @@ class ShowReservation extends Component implements HasForms
         $startTime = \Carbon\Carbon::parse($detail->photoshoot_time)->format('H:i');
         $endTime = \Carbon\Carbon::parse($detail->end_time)->format('H:i');
 
-        $photographer->createSchedule()
-            ->appointment()
-            ->from($detail->photoshoot_date)
-            ->named("Booking: {$this->reservation->reservation_code}")
-            ->description("Photoshoot for {$this->reservation->user->name}")
+        try {
+            $photographer->createSchedule()
+                ->appointment()
+                ->from($detail->photoshoot_date)
+                ->named("Booking: {$this->reservation->reservation_code}")
+                ->description("Photoshoot for {$this->reservation->user->name}")
             ->addPeriod($startTime, $endTime)
             ->save();
 
@@ -149,6 +151,14 @@ class ShowReservation extends Component implements HasForms
         $this->reservation->update([
             'status' => ReservationStatus::InProgress->value
         ]);
+        } catch (\Throwable $e) {
+             Notification::make()
+            ->title('Failed to assign photographer')
+            ->body("Please wait a moment and try again, or cancel the request.")
+            ->danger()
+            ->send();
+            return;
+        }
 
      
 

@@ -71,9 +71,6 @@ class PhotoshootDetails extends StepComponent
             ['id' => '15:00', 'name' => '03:00 PM'],
             ['id' => '16:00', 'name' => '04:00 PM'],
             ['id' => '17:00', 'name' => '05:00 PM'],
-            ['id' => '18:00', 'name' => '06:00 PM'],
-            ['id' => '19:00', 'name' => '07:00 PM'],
-            ['id' => '20:00', 'name' => '08:00 PM'],
         ];
 
         $locations = [

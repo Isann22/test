@@ -11,7 +11,8 @@
                 </p>
 
                 <div class="flex gap-3">
-                    <x-mary-button label="Book Now" class="btn-neutral px-8" icon="o-camera" />
+                    <x-mary-button label="Book Now" link="{{ route('destinations.index') }}" class="btn-neutral px-8"
+                        icon="o-camera" />
                 </div>
             </div>
 
